@@ -42,7 +42,7 @@ async function fetchConcerts(location) {
   }
 
   for (const artist of topArtists) {
-    const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getevents&artist=${encodeURIComponent(
+    const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getEvents&artist=${encodeURIComponent(
       artist.name
     )}&api_key=${apiKey}&format=json`;
     console.log(`Fetching events for ${artist.name} with URL: ${apiUrl}`);

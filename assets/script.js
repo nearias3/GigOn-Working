@@ -58,9 +58,19 @@ if (currentToken.access_token) {
     const userData = await getUserData();
     const topArtists = await getTopArtists();
     const topTracks = await getTopTracks();
+
+    //combined user data with top artists and tracks to simplify code down the line for binding
+    const combinedData = {
+          ...userData,
+          top_artists: topArtists,
+          top_tracks: topTracks,
+        };
+
+
     console.log("User data fetched:", userData);
     renderTemplate("main", "logged-in-template", userData);
     renderTemplate("oauth", "oauth-template", currentToken);
+    
   })();
 } else {
   // Otherwise we're not logged in, so render the login template

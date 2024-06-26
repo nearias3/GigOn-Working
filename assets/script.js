@@ -62,7 +62,7 @@ if (currentToken.access_token) {
     const userData = await getUserData();
     console.log("User data fetched:", userData);
     renderTemplate("main", "login", userData);
-    renderTemplate("oauth", currentToken);
+    renderTemplate("oauth", "ouath", currentToken);
   })();
 } else {
   // Otherwise we're not logged in, so render the login template
@@ -168,16 +168,16 @@ async function logoutClick() {
 async function refreshTokenClick() {
   const token = await refreshToken();
   currentToken.save(token);
-  renderTemplate("oauth", currentToken);
+  renderTemplate("oauth", "oauth", currentToken);
 }
 
 // HTML Template Rendering with basic data binding - demoware only.
-function renderTemplate(targetId, templateId) {
+function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
-    if (!template) {
-        console.error(`Template with ID '${templateId}' not found.`);
-        return;
-    }
+  if (!template) {
+    console.error(`Template with ID '${templateId}' not found.`);
+    return;
+  }
 
   const clone = template.content.cloneNode(true);
 
@@ -197,15 +197,26 @@ function renderTemplate(targetId, templateId) {
       const prefix = targetType === "PROPERTY" ? "data." : "";
       const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
 
-
+      // Evaluate and bind the expression to the element
+      try {
+        ele[targetProp] =
+          targetType === "PROPERTY"
+            ? eval(expression)
+            : () => {
+                eval(expression);
+              };
+        ele.removeAttribute(attr.name);
+      } catch (ex) {
+        console.error(`Error binding ${expression} to ${targetProp}`, ex);
+      }
     });
   });
 
   const target = document.getElementById(targetId);
-    if (!target) {
-      console.error(`Target element with ID '${targetId}' not found.`);
-      return;
-    }
-    target.innerHTML = "";
-    target.appendChild(clone);
-  };
+  if (!target) {
+    console.error(`Target element with ID '${targetId}' not found.`);
+    return;
+  }
+  target.innerHTML = "";
+  target.appendChild(clone);
+}

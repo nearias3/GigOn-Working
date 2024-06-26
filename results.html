@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concert Finder</title>
-  <link rel="stylesheet" href="./assets/results.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Concerts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/results.css">
 </head>
 <body>
-  <button id="open-modal-button">Enter Location</button>
-  <div id="results"></div>
+    <header>
+        <div>
+            <h1>Find Concerts For Your Favorite Artists</h1>
+            <button id="open-modal-button" class="button is-primary">Enter Location</button>
+            <img id="Gig" src="assets/img_assets/gig_chr.png">
+        </div>
+    </header>
 
-  <!-- Location Modal -->
-  <div id="location-modal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-content">
-      <div class="box">
-        <label for="location-input">Enter city or zip code:</label>
-        <input type="text" id="location-input">
-        <button id="search-button">Search</button>
-        <button class="cancel-button">Cancel</button>
-      </div>
+    <div id="results"></div>
+
+    <div class="modal" id="location-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Enter Location</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <input type="text" id="location-input" class="input" placeholder="Enter city or zip code">
+            </section>
+            <footer class="modal-card-foot">
+                <button id="search-button" class="button is-success">Search</button>
+                <button class="button cancel-button">Cancel</button>
+            </footer>
+        </div>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
-  </div>
 
-  <script src="./assets/results.js"></script>
+    <script src="./assets/results.js"></script>
 </body>
 </html>

@@ -126,6 +126,16 @@ td {
     margin-right: 1rem;
 }
 
+#left-panel {
+    display: flex;
+    justify-content: inline;
+}
+
+#left-panel {
+    display: flex;
+    justify-content: inline;
+}
+
 #logged-in-template {
     display: none;
 }
@@ -133,6 +143,8 @@ td {
 #logged-in-template, h2 {
     font-weight: bold;
     font-size: 50px;
+    display: flex;
+    justify-content: center;
     
 }
 
@@ -140,5 +152,7 @@ td {
     background-color: #129f43;
     font-size: 30px;
     color: black;
+    display: flex;
+    justify-content: center;
 }
 

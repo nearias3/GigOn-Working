@@ -41,6 +41,7 @@
     </template>
 
   <template id="logged-in-template">
+    <div id="left-panel">
     <h1>Logged in as <span data-bind="display_name"></span></h1>
     
     <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
@@ -59,13 +60,16 @@
         <td data-bind="country"></td>
       </tr>
     </table>
-    
+    </div>
+
+    <div id="right-panel"> 
     <h2>Top Artists</h2>
-      <ul class="container" id="top_artists"></ul>
+      <ol class="container" id="top_artists"></ol>
     <h2> Top Tracks</h2>
-      <ul class="container" id="top_tracks"></ul>
-    
-      <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
+      <ol class="container" id="top_tracks"></ol>
+    </div>
+
+    <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
     <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
 </template>
 

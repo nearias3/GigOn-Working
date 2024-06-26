@@ -126,14 +126,12 @@ td {
     margin-right: 1rem;
 }
 
-#left-panel {
+#left-panel, #right-panel {
     display: flex;
-    justify-content: inline;
-}
-
-#left-panel {
-    display: flex;
-    justify-content: inline;
+    flex-direction: column;
+    width: 100%
+    max-width: 600px;
+    margin: 10px 0;
 }
 
 #logged-in-template {
@@ -153,6 +151,8 @@ td {
     font-size: 30px;
     color: black;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    max-width: fit-content;
+    align-items: center;
 }
 

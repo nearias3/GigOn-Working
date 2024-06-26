@@ -1,10 +1,9 @@
-const clientId = "8348b3df28ea43d7b78702da44acb211"; 
+const clientId = "8348b3df28ea43d7b78702da44acb211";
 const redirectUrl = "https://nearias3.github.io/GigOn-Working/";
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-private user-read-email user-top-read";
-
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
@@ -61,15 +60,14 @@ if (currentToken.access_token) {
 
     //combined user data with top artists and tracks to simplify code down the line for binding
     const combinedData = {
-          ...userData,
-          top_artists: topArtists,
-          top_tracks: topTracks,
-        };
+      ...userData,
+      top_artists: topArtists,
+      top_tracks: topTracks,
+    };
 
     console.log("User data fetched:", combinedData);
     renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
-    
   })();
 } else {
   // Otherwise we're not logged in, so render the login template
@@ -152,14 +150,23 @@ async function refreshToken() {
     }),
   });
 
-  return await response.json();
+  const token = await response.json();
+  currentToken.save(token);
+  return token;
 }
+
 /// function to retrieve user data from spotify
 async function getUserData() {
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
     headers: { Authorization: "Bearer " + currentToken.access_token },
   });
+
+  if (response.status === 401) {
+    // Token expired, refresh it
+    await refreshToken();
+    return getUserData();
+  }
 
   return await response.json();
 }
@@ -171,6 +178,12 @@ async function getTopArtists() {
     headers: { Authorization: "Bearer " + currentToken.access_token },
   });
 
+  if (response.status === 401) {
+    // Token expired, refresh it
+    await refreshToken();
+    return getTopArtists();
+  }
+
   return await response.json();
 }
 
@@ -181,9 +194,14 @@ async function getTopTracks() {
     headers: { Authorization: "Bearer " + currentToken.access_token },
   });
 
+  if (response.status === 401) {
+    // Token expired, refresh it
+    await refreshToken();
+    return getTopTracks();
+  }
+
   return await response.json();
 }
-
 
 // Click handlers
 
@@ -249,10 +267,11 @@ function renderTemplate(targetId, templateId, data = null) {
     return;
   }
   target.innerHTML = "";
-  target.appendChild(clone);
- 
-  // Render top artists and top tracks if they're available to display in the html
 
+  // Append the cloned template
+  target.appendChild(clone);
+
+  // Render top artists and top tracks if they're available to display in the html
   if (data && data.top_artists && data.top_tracks) {
     const topArtistsList = document.getElementById("top-artists-list");
     const topTracksList = document.getElementById("top-tracks-list");
@@ -270,4 +289,3 @@ function renderTemplate(targetId, templateId, data = null) {
     });
   }
 }
-

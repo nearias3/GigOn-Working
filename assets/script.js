@@ -66,9 +66,8 @@ if (currentToken.access_token) {
           top_tracks: topTracks,
         };
 
-
-    console.log("User data fetched:", userData);
-    renderTemplate("main", "logged-in-template", userData);
+    console.log("User data fetched:", combinedData);
+    renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
     
   })();

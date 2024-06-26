@@ -250,25 +250,29 @@ function renderTemplate(targetId, templateId, data = null) {
   }
   target.innerHTML = "";
   target.appendChild(clone);
- 
+
   // Render top artists and top tracks if they're available to display in the html
 
-  if (data && data.top_artists && data.top_tracks) {
+  if (data && data.top_artists && data.top_artists.items) {
     const topArtistsList = document.getElementById("top-artists-list");
+    if (topArtistsList) {
+      data.top_artists.items.forEach((artist) => {
+        const li = document.createElement("li");
+        li.textContent = artist.name;
+        topArtistsList.appendChild(li);
+      });
+    }
+  }
+
+  if (data && data.top_tracks && data.top_tracks.items) {
     const topTracksList = document.getElementById("top-tracks-list");
-
-    data.top_artists.items.forEach((artist) => {
-      const li = document.createElement("li");
-      li.textContent = artist.name;
-      topArtistsList.appendChild(li);
-    });
-
-    data.top_tracks.items.forEach((track) => {
-      const li = document.createElement("li");
-      li.textContent = track.name;
-      topTracksList.appendChild(li);
-    });
-    return;
+    if (topTracksList) {
+      data.top_tracks.items.forEach((track) => {
+        const li = document.createElement("li");
+        li.textContent = track.name;
+        topTracksList.appendChild(li);
+      });
+    }
   }
 }
 

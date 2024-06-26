@@ -5,10 +5,6 @@ const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-private user-read-email";
 
-// Spotify login button
-document
-  .getElementById("spotifyAuthenticationBtn")
-  .addEventListener("click", loginWithSpotifyClick);
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
@@ -61,8 +57,8 @@ if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
     console.log("User data fetched:", userData);
-    renderTemplate("main", "login", userData);
-    renderTemplate("oauth", "oauth", currentToken);
+    renderTemplate("main", "logged-in-template", userData);
+    renderTemplate("oauth", "oauth-template", currentToken);
   })();
 } else {
   // Otherwise we're not logged in, so render the login template
@@ -168,7 +164,7 @@ async function logoutClick() {
 async function refreshTokenClick() {
   const token = await refreshToken();
   currentToken.save(token);
-  renderTemplate("oauth", "oauth", currentToken);
+  renderTemplate("oauth", "oauth-template", currentToken);
 }
 
 // HTML Template Rendering with basic data binding - demoware only.

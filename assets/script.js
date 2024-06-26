@@ -61,12 +61,12 @@ if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
     console.log("User data fetched:", userData);
-    renderTemplate("mainContent", "login", userData);
+    renderTemplate("main", "login", userData);
     renderTemplate("oauth", "oauth-template", currentToken);
   })();
 } else {
   // Otherwise we're not logged in, so render the login template
-  renderTemplate("mainContent", "login");
+  renderTemplate("main", "login");
 }
 
 async function redirectToSpotifyAuthorize() {
@@ -172,7 +172,7 @@ async function refreshTokenClick() {
 }
 
 // HTML Template Rendering with basic data binding - demoware only.
-function renderTemplate(targetId, templateId, data = null) {
+function renderTemplate(targetId, templateId) {
   const template = document.getElementById(templateId);
     if (!template) {
         console.error(`Template with ID '${templateId}' not found.`);
@@ -197,22 +197,15 @@ function renderTemplate(targetId, templateId, data = null) {
       const prefix = targetType === "PROPERTY" ? "data." : "";
       const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
 
-      // Maybe use a framework with more validation here ;)
-      try {
-        ele[targetProp] =
-          targetType === "PROPERTY"
-            ? eval(expression)
-            : () => {
-                eval(expression);
-              };
-        ele.removeAttribute(attr.name);
-      } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
-      }
+
     });
   });
 
   const target = document.getElementById(targetId);
-  target.innerHTML = "";
-  target.appendChild(clone);
-}
+    if (!target) {
+      console.error(`Target element with ID '${targetId}' not found.`);
+      return;
+    }
+    target.innerHTML = "";
+    target.appendChild(clone);
+  };

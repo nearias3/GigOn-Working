@@ -62,7 +62,7 @@ if (currentToken.access_token) {
     const userData = await getUserData();
     console.log("User data fetched:", userData);
     renderTemplate("main", "login", userData);
-    renderTemplate("oauth", "ouath", currentToken);
+    renderTemplate("oauth", "oauth", currentToken);
   })();
 } else {
   // Otherwise we're not logged in, so render the login template

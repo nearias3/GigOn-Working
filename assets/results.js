@@ -41,49 +41,41 @@ async function fetchConcerts(location) {
     return;
   }
 
-  for (const artist of topArtists) {
-    const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getEvents&artist=${encodeURIComponent(
-      artist.name
-    )}&api_key=${apiKey}&format=json`;
-    console.log(`Fetching events for ${artist.name} with URL: ${apiUrl}`);
+  const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=geo.getEvents&location=${encodeURIComponent(
+    location
+  )}&api_key=${apiKey}&format=json`;
+  console.log(`Fetching events with URL: ${apiUrl}`);
 
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
 
-      if (response.ok && data.events && data.events.event) {
-        const filteredEvents = data.events.event.filter(
-          (event) =>
-            event.venue.location.city
-              .toLowerCase()
-              .includes(location.toLowerCase()) ||
-            event.venue.location.zip
-              .toLowerCase()
-              .includes(location.toLowerCase())
-        );
+    if (response.ok && data.events && data.events.event) {
+      const filteredEvents = data.events.event.filter((event) =>
+        topArtists.some((artist) => event.artists.artist.includes(artist.name))
+      );
 
-        if (filteredEvents.length > 0) {
-          filteredEvents.forEach((event) => {
-            const eventElement = document.createElement("div");
-            eventElement.innerHTML = `
-              <h2>${event.title}</h2>
-              <p>${event.venue.name}, ${event.venue.location.city}</p>
-              <p>${event.startDate}</p>
-            `;
-            resultsContainer.appendChild(eventElement);
-          });
-        } else {
-          resultsContainer.innerHTML += `<p>No concerts found for ${artist.name} in ${location}.</p>`;
-        }
+      if (filteredEvents.length > 0) {
+        filteredEvents.forEach((event) => {
+          const eventElement = document.createElement("div");
+          eventElement.innerHTML = `
+            <h2>${event.title}</h2>
+            <p>${event.venue.name}, ${event.venue.location.city}</p>
+            <p>${event.startDate}</p>
+          `;
+          resultsContainer.appendChild(eventElement);
+        });
       } else {
-        console.error(
-          `Error fetching events: ${data.message || "Unknown error"}`
-        );
-        resultsContainer.innerHTML += `<p>Error fetching concerts for ${artist.name}. Please try again later.</p>`;
+        resultsContainer.innerHTML = `<p>No concerts found for your top artists in ${location}.</p>`;
       }
-    } catch (error) {
-      console.error(`Error fetching events for ${artist.name}:`, error);
-      resultsContainer.innerHTML += `<p>Error fetching concerts for ${artist.name}. Please try again later.</p>`;
+    } else {
+      console.error(
+        `Error fetching events: ${data.message || "Unknown error"}`
+      );
+      resultsContainer.innerHTML = `<p>Error fetching concerts. Please try again later.</p>`;
     }
+  } catch (error) {
+    console.error(`Error fetching events:`, error);
+    resultsContainer.innerHTML = `<p>Error fetching concerts. Please try again later.</p>`;
   }
 }

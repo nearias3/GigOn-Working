@@ -1,28 +1,33 @@
-document.getElementById("open-modal-button").addEventListener("click", () => {
-  const modal = document.getElementById("location-modal");
-  modal.classList.add("is-active");
-});
-
-document
-  .querySelectorAll(".modal .delete, .modal .cancel-button")
-  .forEach(($close) => {
-    const $target = $close.closest(".modal");
-
-    $close.addEventListener("click", () => {
-      $target.classList.remove("is-active");
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  // Show the modal when the "Enter Location" button is clicked
+  document.getElementById("open-modal-button").addEventListener("click", () => {
+    const modal = document.getElementById("location-modal");
+    modal.classList.add("is-active");
   });
 
-document.getElementById("search-button").addEventListener("click", () => {
-  const location = document.getElementById("location-input").value;
-  const modal = document.getElementById("location-modal");
+  // Hide the modal when the close button or cancel button is clicked
+  document
+    .querySelectorAll(".modal .delete, .modal .cancel-button")
+    .forEach(($close) => {
+      const $target = $close.closest(".modal");
 
-  if (location) {
-    fetchConcerts(location);
-    modal.classList.remove("is-active");
-  } else {
-    alert("Please enter a city or zip code.");
-  }
+      $close.addEventListener("click", () => {
+        $target.classList.remove("is-active");
+      });
+    });
+
+  // Handle the search button click to fetch concerts
+  document.getElementById("search-button").addEventListener("click", () => {
+    const location = document.getElementById("location-input").value;
+    const modal = document.getElementById("location-modal");
+
+    if (location) {
+      fetchConcerts(location);
+      modal.classList.remove("is-active");
+    } else {
+      alert("Please enter a city or zip code.");
+    }
+  });
 });
 
 async function fetchConcerts(location) {

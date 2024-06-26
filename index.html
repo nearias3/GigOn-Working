@@ -34,13 +34,15 @@
 
 <div>
 
+  <div id="heroBanner">
+      <img id="exclamationGuy" src="assets/img_assets/gigON_logo.png"><!--Actually his name is Gig-->
+      <h1 id="promptText">Log in to get started!</h1> <!--Prompt text-->
+    </div>
+
     <div id="main"></div>
     <div id="oauth"></div>
 
     <template id="login">
-    <div id="heroBanner">
-      <img id="exclamationGuy" src="assets/img_assets/gigON_logo.png"><!--Actually his name is Gig-->
-      <h1 id="promptText">Log in to get started!</h1> <!--Prompt text-->
      <button id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
     </template>
 
@@ -66,7 +68,18 @@
         <td>Country</td>
         <td data-bind="country"></td>
       </tr>
+      <tr>
+        <td>Top Artists</td>
+        <td data-bind="artists"></td>
+      </tr>
+      <tr>
+        <td>Top Tracks</td>
+        <td data-bind="tracks"></td>
+      </tr>
+
     </table>
+
+
 
     <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
     <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>

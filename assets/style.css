@@ -113,3 +113,21 @@ header{
     
 
 }
+
+#login {
+    display: none;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+td:first-child {
+    font-weight: bold;
+}
+
+td {
+    white-space: nowrap;
+    padding: 10px;
+    margin-right: 1rem;
+}

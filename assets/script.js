@@ -60,7 +60,8 @@ if (code) {
 if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
-    renderTemplate("mainContent", "logged-in-template", userData);
+    console.log("User data fetched:", userData);
+    renderTemplate("mainContent", "login", userData);
     renderTemplate("oauth", "oauth-template", currentToken);
   })();
 } else {
@@ -173,6 +174,11 @@ async function refreshTokenClick() {
 // HTML Template Rendering with basic data binding - demoware only.
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
+    if (!template) {
+        console.error(`Template with ID '${templateId}' not found.`);
+        return;
+    }
+
   const clone = template.content.cloneNode(true);
 
   const elements = clone.querySelectorAll("*");

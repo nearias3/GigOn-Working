@@ -70,6 +70,8 @@ if (currentToken.access_token) {
     renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
     
+    // save top artists to local storage to use in results page
+    localStorage.setItem("top_artists", JSON.stringify(combinedData.top_artists.items));
   })();
 } else {
   // Otherwise we're not logged in, so render the login template
@@ -277,6 +279,6 @@ function renderTemplate(targetId, templateId, data = null) {
 }
 
 
-localStorage.setItem("top_artists",JSON.stringify(combinedData.top_artists.items));
+
 
 

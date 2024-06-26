@@ -31,11 +31,11 @@ const currentToken = {
   },
 };
 
+async function handleRedirectCallback() {
 const args = new URLSearchParams(window.location.search);
 const code = args.get("code");
 
 if (code) {
-  (async () => {
     const token = await getToken(code);
     currentToken.save(token);
 
@@ -44,11 +44,18 @@ if (code) {
 
     const updatedUrl = url.search ? url.href : url.href.replace("?", "");
     window.history.replaceState({}, document.title, updatedUrl);
-  })();
+    
+    loadData();
+    } else {
+      if (currentToken.access_token) {
+        loadData();
+      } else {
+      renderTemplate("main", "login");
+    }
+  }
 }
 
-if (currentToken.access_token) {
-  (async () => {
+async function loadData() {
     const userData = await getUserData();
     const topArtists = await getTopArtists();
     const topTracks = await getTopTracks();
@@ -62,10 +69,7 @@ if (currentToken.access_token) {
     console.log("User data fetched:", combinedData);
     renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
-  })();
-} else {
-  renderTemplate("main", "login");
-}
+  }
 
 async function redirectToSpotifyAuthorize() {
   console.log("Redirecting to Spotify for authorization...");

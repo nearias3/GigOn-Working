@@ -105,6 +105,8 @@ async function redirectToSpotifyAuthorize() {
 }
 
 // Spotify API Calls
+
+// function to get token from local storage
 async function getToken(code) {
   const code_verifier = localStorage.getItem("code_verifier");
 
@@ -125,6 +127,7 @@ async function getToken(code) {
   return await response.json();
 }
 
+// function to refresh the token
 async function refreshToken() {
   const response = await fetch(tokenEndpoint, {
     method: "POST",
@@ -140,7 +143,7 @@ async function refreshToken() {
 
   return await response.json();
 }
-
+/// function to retrieve user data from spotify
 async function getUserData() {
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
@@ -149,6 +152,27 @@ async function getUserData() {
 
   return await response.json();
 }
+
+// function to retrieve user's top artists
+async function getTopArtists() {
+  const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
+    method: "GET",
+    headers: { Authorization: "Bearer " + currentToken.access_token },
+  });
+
+  return await response.json();
+}
+
+// function to retrieve user's top tracks
+async function getTopTracks() {
+  const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
+    method: "GET",
+    headers: { Authorization: "Bearer " + currentToken.access_token },
+  });
+
+  return await response.json();
+}
+
 
 // Click handlers
 

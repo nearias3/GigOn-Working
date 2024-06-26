@@ -276,3 +276,7 @@ function renderTemplate(targetId, templateId, data = null) {
   }
 }
 
+
+localStorage.setItem("top_artists",JSON.stringify(combinedData.top_artists.items));
+
+

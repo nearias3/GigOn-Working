@@ -138,7 +138,7 @@ td {
     display: none;
 }
 
-#logged-in-template, h2 {
+#right-panel, h2 {
     font-weight: bold;
     font-size: 50px;
     display: flex;
@@ -155,4 +155,10 @@ td {
     max-width: fit-content;
     align-items: center;
 }
+
+#oauth-template, h2 {
+    font-weight: bold;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;}
 

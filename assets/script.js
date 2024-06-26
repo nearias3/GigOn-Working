@@ -3,7 +3,7 @@ const redirectUrl = "https://nearias3.github.io/GigOn-Working/";
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
-const scope = "user-read-private user-read-email";
+const scope = "user-read-private user-read-email user-top-read";
 
 
 // Data structure that manages the current active token, caching it in localStorage

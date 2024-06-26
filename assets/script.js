@@ -5,7 +5,6 @@ const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-private user-read-email user-top-read";
 
-// Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
   get access_token() {
     return localStorage.getItem("access_token") || null;
@@ -32,17 +31,14 @@ const currentToken = {
   },
 };
 
-// On page load, try to fetch auth code from current browser search URL
 const args = new URLSearchParams(window.location.search);
 const code = args.get("code");
 
-// If we find a code, we're in a callback, do a token exchange
 if (code) {
   (async () => {
     const token = await getToken(code);
     currentToken.save(token);
 
-    // Remove code from URL so we can refresh correctly.
     const url = new URL(window.location.href);
     url.searchParams.delete("code");
 
@@ -51,14 +47,12 @@ if (code) {
   })();
 }
 
-// If we have a token, we're logged in, so fetch user data and render logged in template
 if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
     const topArtists = await getTopArtists();
     const topTracks = await getTopTracks();
 
-    //combined user data with top artists and tracks to simplify code down the line for binding
     const combinedData = {
       ...userData,
       top_artists: topArtists,
@@ -70,7 +64,6 @@ if (currentToken.access_token) {
     renderTemplate("oauth", "oauth-template", currentToken);
   })();
 } else {
-  // Otherwise we're not logged in, so render the login template
   renderTemplate("main", "login");
 }
 
@@ -110,12 +103,9 @@ async function redirectToSpotifyAuthorize() {
 
   authUrl.search = new URLSearchParams(params).toString();
   console.log(`Auth URL: ${authUrl.toString()}`);
-  window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
+  window.location.href = authUrl.toString();
 }
 
-// Spotify API Calls
-
-// function to get token from local storage
 async function getToken(code) {
   const code_verifier = localStorage.getItem("code_verifier");
 
@@ -136,7 +126,6 @@ async function getToken(code) {
   return await response.json();
 }
 
-// function to refresh the token
 async function refreshToken() {
   const response = await fetch(tokenEndpoint, {
     method: "POST",
@@ -155,7 +144,6 @@ async function refreshToken() {
   return token;
 }
 
-/// function to retrieve user data from spotify
 async function getUserData() {
   const response = await fetch("https://api.spotify.com/v1/me", {
     method: "GET",
@@ -163,7 +151,6 @@ async function getUserData() {
   });
 
   if (response.status === 401) {
-    // Token expired, refresh it
     await refreshToken();
     return getUserData();
   }
@@ -171,7 +158,6 @@ async function getUserData() {
   return await response.json();
 }
 
-// function to retrieve user's top artists
 async function getTopArtists() {
   const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
     method: "GET",
@@ -179,7 +165,6 @@ async function getTopArtists() {
   });
 
   if (response.status === 401) {
-    // Token expired, refresh it
     await refreshToken();
     return getTopArtists();
   }
@@ -187,7 +172,6 @@ async function getTopArtists() {
   return await response.json();
 }
 
-// function to retrieve user's top tracks
 async function getTopTracks() {
   const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
     method: "GET",
@@ -195,15 +179,12 @@ async function getTopTracks() {
   });
 
   if (response.status === 401) {
-    // Token expired, refresh it
     await refreshToken();
     return getTopTracks();
   }
 
   return await response.json();
 }
-
-// Click handlers
 
 async function loginWithSpotifyClick() {
   await redirectToSpotifyAuthorize();
@@ -220,7 +201,6 @@ async function refreshTokenClick() {
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
-// HTML Template Rendering with basic data binding - demoware only.
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
   if (!template) {
@@ -230,35 +210,38 @@ function renderTemplate(targetId, templateId, data = null) {
 
   const clone = template.content.cloneNode(true);
 
-  const elements = clone.querySelectorAll("*");
+  const elements = clone.querySelectorAll(
+    "[data-bind], [data-bind-onclick], [data-bind-src], [data-bind-alt], [data-bind-href]"
+  );
   elements.forEach((ele) => {
-    const bindingAttrs = [...ele.attributes].filter((a) =>
-      a.name.startsWith("data-bind")
-    );
-
-    bindingAttrs.forEach((attr) => {
-      const target = attr.name
-        .replace(/data-bind-/, "")
-        .replace(/data-bind/, "");
-      const targetType = target.startsWith("onclick") ? "HANDLER" : "PROPERTY";
-      const targetProp = target === "" ? "innerHTML" : target;
-
-      const prefix = targetType === "PROPERTY" ? "data." : "";
-      const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
-
-      // Evaluate and bind the expression to the element
-      try {
-        ele[targetProp] =
-          targetType === "PROPERTY"
-            ? eval(expression)
-            : () => {
-                eval(expression);
-              };
-        ele.removeAttribute(attr.name);
-      } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
+    if (ele.hasAttribute("data-bind")) {
+      const bindAttr = ele.getAttribute("data-bind");
+      if (data && data[bindAttr]) {
+        ele.textContent = data[bindAttr];
       }
-    });
+    }
+    if (ele.hasAttribute("data-bind-onclick")) {
+      const bindAttr = ele.getAttribute("data-bind-onclick");
+      ele.addEventListener("click", eval(bindAttr));
+    }
+    if (ele.hasAttribute("data-bind-src")) {
+      const bindAttr = ele.getAttribute("data-bind-src");
+      if (data && data[bindAttr]) {
+        ele.src = data[bindAttr];
+      }
+    }
+    if (ele.hasAttribute("data-bind-alt")) {
+      const bindAttr = ele.getAttribute("data-bind-alt");
+      if (data && data[bindAttr]) {
+        ele.alt = data[bindAttr];
+      }
+    }
+    if (ele.hasAttribute("data-bind-href")) {
+      const bindAttr = ele.getAttribute("data-bind-href");
+      if (data && data[bindAttr]) {
+        ele.href = data[bindAttr];
+      }
+    }
   });
 
   const target = document.getElementById(targetId);
@@ -267,25 +250,26 @@ function renderTemplate(targetId, templateId, data = null) {
     return;
   }
   target.innerHTML = "";
-
-  // Append the cloned template
   target.appendChild(clone);
 
-  // Render top artists and top tracks if they're available to display in the html
   if (data && data.top_artists && data.top_tracks) {
     const topArtistsList = document.getElementById("top-artists-list");
     const topTracksList = document.getElementById("top-tracks-list");
 
-    data.top_artists.items.forEach((artist) => {
-      const li = document.createElement("li");
-      li.textContent = artist.name;
-      topArtistsList.appendChild(li);
-    });
+    if (topArtistsList) {
+      data.top_artists.items.forEach((artist) => {
+        const li = document.createElement("li");
+        li.textContent = artist.name;
+        topArtistsList.appendChild(li);
+      });
+    }
 
-    data.top_tracks.items.forEach((track) => {
-      const li = document.createElement("li");
-      li.textContent = track.name;
-      topTracksList.appendChild(li);
-    });
+    if (topTracksList) {
+      data.top_tracks.items.forEach((track) => {
+        const li = document.createElement("li");
+        li.textContent = track.name;
+        topTracksList.appendChild(li);
+      });
+    }
   }
 }

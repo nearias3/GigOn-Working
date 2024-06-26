@@ -86,23 +86,22 @@ header{
 }
 
 #exclamationGuy{
-    
+    max-height: 350px;
     display: flex;
+    justify-content: center;
     margin-left:auto;
     margin-right:auto;
+    padding-bottom: 75px;
 
 }
 
 #promptText{
 
     text-align: center;
-
+    padding-top: 10px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
-    font-size: 48px;
-
+    font-size: 30px;
     color:black;
-
     transform:translateY(-200px); 
     
 

@@ -26,15 +26,29 @@ async function fetchConcerts(location) {
       const data = await response.json();
 
       if (data.events && data.events.event) {
-        data.events.event.forEach((event) => {
-          const eventElement = document.createElement("div");
-          eventElement.innerHTML = `
-            <h2>${event.title}</h2>
-            <p>${event.venue.name}, ${event.venue.location.city}</p>
-            <p>${event.startDate}</p>
-          `;
-          resultsContainer.appendChild(eventElement);
-        });
+        const filteredEvents = data.events.event.filter(
+          (event) =>
+            event.venue.location.city
+              .toLowerCase()
+              .includes(location.toLowerCase()) ||
+            event.venue.location.zip
+              .toLowerCase()
+              .includes(location.toLowerCase())
+        );
+
+        if (filteredEvents.length > 0) {
+          filteredEvents.forEach((event) => {
+            const eventElement = document.createElement("div");
+            eventElement.innerHTML = `
+              <h2>${event.title}</h2>
+              <p>${event.venue.name}, ${event.venue.location.city}</p>
+              <p>${event.startDate}</p>
+            `;
+            resultsContainer.appendChild(eventElement);
+          });
+        } else {
+          resultsContainer.innerHTML += `<p>No concerts found for ${artist.name} in ${location}.</p>`;
+        }
       } else {
         resultsContainer.innerHTML += `<p>No concerts found for ${artist.name} in ${location}.</p>`;
       }

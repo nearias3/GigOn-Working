@@ -1,5 +1,5 @@
-const clientId = "8348b3df28ea43d7b78702da44acb211"; // your clientId
-const redirectUrl = "https://nearias3.github.io/GigOn-Working/"; // your redirect URL - must be localhost URL and/or HTTPS
+const clientId = "8348b3df28ea43d7b78702da44acb211"; 
+const redirectUrl = "https://nearias3.github.io/GigOn-Working/";
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -56,6 +56,8 @@ if (code) {
 if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
+    const topArtists = await getTopArtists();
+    const topTracks = await getTopTracks();
     console.log("User data fetched:", userData);
     renderTemplate("main", "logged-in-template", userData);
     renderTemplate("oauth", "oauth-template", currentToken);
@@ -240,3 +242,22 @@ function renderTemplate(targetId, templateId, data = null) {
   target.innerHTML = "";
   target.appendChild(clone);
 }
+
+// Render top artists and top tracks if they're available to display in the html
+
+ if (data && data.top_artists && data.top_tracks) {
+    const topArtistsList = document.getElementById("top-artists-list");
+    const topTracksList = document.getElementById("top-tracks-list");
+
+    data.top_artists.items.forEach((artist) => {
+      const li = document.createElement("li");
+      li.textContent = artist.name;
+      topArtistsList.appendChild(li);
+    });
+
+    data.top_tracks.items.forEach((track) => {
+      const li = document.createElement("li");
+      li.textContent = track.name;
+      topTracksList.appendChild(li);
+    });
+  }

@@ -114,7 +114,11 @@ header{
 
 }
 
-#login {
+#logged-in-template {
+    display: none;
+}
+
+#oauth-template {
     display: none;
 }
 

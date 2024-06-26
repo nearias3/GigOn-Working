@@ -254,7 +254,7 @@ function renderTemplate(targetId, templateId, data = null) {
   // Render top artists and top tracks if they're available to display in the html
 
   if (data && data.top_artists && data.top_artists.items) {
-    const topArtistsList = document.getElementById("top-artists-list");
+    const topArtistsList = document.getElementById("top_artists");
     if (topArtistsList) {
       data.top_artists.items.forEach((artist) => {
         const li = document.createElement("li");
@@ -265,7 +265,7 @@ function renderTemplate(targetId, templateId, data = null) {
   }
 
   if (data && data.top_tracks && data.top_tracks.items) {
-    const topTracksList = document.getElementById("top-tracks-list");
+    const topTracksList = document.getElementById("top_artists");
     if (topTracksList) {
       data.top_tracks.items.forEach((track) => {
         const li = document.createElement("li");

@@ -1,81 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Show the modal when the "Enter Location" button is clicked
-  document.getElementById("open-modal-button").addEventListener("click", () => {
-    const modal = document.getElementById("location-modal");
-    modal.classList.add("is-active");
-  });
+// Function to fetch top artists from Last.fm
+function fetchTopArtists(country) {
+  const apiKey = "311009ad05c5e835188a55a88b9d2955"; 
+  const url = `https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=${country}&api_key=${apiKey}&format=json`;
 
-  // Hide the modal when the close button or cancel button is clicked
-  document
-    .querySelectorAll(".modal .delete, .modal .cancel-button")
-    .forEach(($close) => {
-      const $target = $close.closest(".modal");
-
-      $close.addEventListener("click", () => {
-        $target.classList.remove("is-active");
-      });
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      // Extract the list of artists from the response
+      const topArtists = data.topartists.artist.map((artist) => artist.name);
+      return topArtists;
+    })
+    .catch((error) => {
+      console.error("Error fetching top artists:", error);
+      throw error; // Propagate the error for handling further up
     });
+}
 
-  // Handle the search button click to fetch concerts
-  document.getElementById("search-button").addEventListener("click", () => {
-    const location = document.getElementById("location-input").value;
-    const modal = document.getElementById("location-modal");
+// Function to retrieve stored artists from local storage
+function getStoredArtists() {
+  const storedArtists = JSON.parse(localStorage.getItem("artists")) || [];
+  return storedArtists;
+}
 
-    if (location) {
-      fetchConcerts(location);
-      modal.classList.remove("is-active");
-    } else {
-      alert("Please enter a city or zip code.");
-    }
-  });
-});
-
-async function fetchConcerts(location) {
-  const topArtists = JSON.parse(localStorage.getItem("top_artists"));
-  const apiKey = "311009ad05c5e835188a55a88b9d2955";
-  const resultsContainer = document.getElementById("results");
-  resultsContainer.innerHTML = "";
-
-  if (!topArtists || topArtists.length === 0) {
-    resultsContainer.innerHTML = "<p>No top artists found.</p>";
-    return;
-  }
-
-  const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=geo.getEvents&location=${encodeURIComponent(
-    location
-  )}&api_key=${apiKey}&format=json`;
-  console.log(`Fetching events with URL: ${apiUrl}`);
-
+// Function to filter top artists by stored artists
+async function filterTopArtistsByStored(country) {
   try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    const topArtists = await fetchTopArtists(country);
+    const storedArtists = getStoredArtists();
 
-    if (response.ok && data.events && data.events.event) {
-      const filteredEvents = data.events.event.filter((event) =>
-        topArtists.some((artist) => event.artists.artist.includes(artist.name))
-      );
+    // Filter top artists based on stored artists
+    const filteredArtists = topArtists.filter((artist) =>
+      storedArtists.includes(artist)
+    );
 
-      if (filteredEvents.length > 0) {
-        filteredEvents.forEach((event) => {
-          const eventElement = document.createElement("div");
-          eventElement.innerHTML = `
-            <h2>${event.title}</h2>
-            <p>${event.venue.name}, ${event.venue.location.city}</p>
-            <p>${event.startDate}</p>
-          `;
-          resultsContainer.appendChild(eventElement);
-        });
-      } else {
-        resultsContainer.innerHTML = `<p>No concerts found for your top artists in ${location}.</p>`;
-      }
-    } else {
-      console.error(
-        `Error fetching events: ${data.message || "Unknown error"}`
-      );
-      resultsContainer.innerHTML = `<p>Error fetching concerts. Please try again later.</p>`;
-    }
+    return filteredArtists;
   } catch (error) {
-    console.error(`Error fetching events:`, error);
-    resultsContainer.innerHTML = `<p>Error fetching concerts. Please try again later.</p>`;
+    console.error("Error filtering top artists:", error);
+    throw error; // Propagate the error for handling further up
   }
 }

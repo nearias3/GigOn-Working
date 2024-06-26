@@ -212,35 +212,38 @@ function renderTemplate(targetId, templateId, data = null) {
 
   const clone = template.content.cloneNode(true);
 
-  const elements = clone.querySelectorAll("*");
+  const elements = clone.querySelectorAll(
+    "[data-bind], [data-bind-onclick], [data-bind-src], [data-bind-alt], [data-bind-href]"
+  );
   elements.forEach((ele) => {
-    const bindingAttrs = [...ele.attributes].filter((a) =>
-      a.name.startsWith("data-bind")
-    );
-
-    bindingAttrs.forEach((attr) => {
-      const target = attr.name
-        .replace(/data-bind-/, "")
-        .replace(/data-bind/, "");
-      const targetType = target.startsWith("onclick") ? "HANDLER" : "PROPERTY";
-      const targetProp = target === "" ? "innerHTML" : target;
-
-      const prefix = targetType === "PROPERTY" ? "data." : "";
-      const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
-
-      // Evaluate and bind the expression to the element
-      try {
-        ele[targetProp] =
-          targetType === "PROPERTY"
-            ? eval(expression)
-            : () => {
-                eval(expression);
-              };
-        ele.removeAttribute(attr.name);
-      } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
+    if (ele.hasAttribute("data-bind")) {
+      const bindAttr = ele.getAttribute("data-bind");
+      if (data && data[bindAttr]) {
+        ele.textContent = data[bindAttr];
       }
-    });
+    }
+    if (ele.hasAttribute("data-bind-onclick")) {
+      const bindAttr = ele.getAttribute("data-bind-onclick");
+      ele.addEventListener("click", eval(bindAttr));
+    }
+    if (ele.hasAttribute("data-bind-src")) {
+      const bindAttr = ele.getAttribute("data-bind-src");
+      if (data && data[bindAttr]) {
+        ele.src = data[bindAttr];
+      }
+    }
+    if (ele.hasAttribute("data-bind-alt")) {
+      const bindAttr = ele.getAttribute("data-bind-alt");
+      if (data && data[bindAttr]) {
+        ele.alt = data[bindAttr];
+      }
+    }
+    if (ele.hasAttribute("data-bind-href")) {
+      const bindAttr = ele.getAttribute("data-bind-href");
+      if (data && data[bindAttr]) {
+        ele.href = data[bindAttr];
+      }
+    }
   });
 
   const target = document.getElementById(targetId);
@@ -250,24 +253,25 @@ function renderTemplate(targetId, templateId, data = null) {
   }
   target.innerHTML = "";
   target.appendChild(clone);
- 
-  // Render top artists and top tracks if they're available to display in the html
 
   if (data && data.top_artists && data.top_tracks) {
     const topArtistsList = document.getElementById("top-artists-list");
     const topTracksList = document.getElementById("top-tracks-list");
 
-    data.top_artists.items.forEach((artist) => {
-      const li = document.createElement("li");
-      li.textContent = artist.name;
-      topArtistsList.appendChild(li);
-    });
+    if (topArtistsList) {
+      data.top_artists.items.forEach((artist) => {
+        const li = document.createElement("li");
+        li.textContent = artist.name;
+        topArtistsList.appendChild(li);
+      });
+    }
 
-    data.top_tracks.items.forEach((track) => {
-      const li = document.createElement("li");
-      li.textContent = track.name;
-      topTracksList.appendChild(li);
-    });
+    if (topTracksList) {
+      data.top_tracks.items.forEach((track) => {
+        const li = document.createElement("li");
+        li.textContent = track.name;
+        topTracksList.appendChild(li);
+      });
+    }
   }
 }
-

@@ -250,11 +250,10 @@ function renderTemplate(targetId, templateId, data = null) {
   }
   target.innerHTML = "";
   target.appendChild(clone);
-}
+ 
+  // Render top artists and top tracks if they're available to display in the html
 
-// Render top artists and top tracks if they're available to display in the html
-
- if (data && data.top_artists && data.top_tracks) {
+  if (data && data.top_artists && data.top_tracks) {
     const topArtistsList = document.getElementById("top-artists-list");
     const topTracksList = document.getElementById("top-tracks-list");
 
@@ -270,3 +269,5 @@ function renderTemplate(targetId, templateId, data = null) {
       topTracksList.appendChild(li);
     });
   }
+}
+

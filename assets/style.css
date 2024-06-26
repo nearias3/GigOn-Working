@@ -107,9 +107,6 @@ header{
 
 }
 
-#logged-in-template {
-    display: none;
-}
 
 #oauth-template {
     display: none;
@@ -129,6 +126,19 @@ td {
     margin-right: 1rem;
 }
 
-#user-chart {
-    /* add code to make this a separate chart with the top artists and top tracks organized neatly and dynamically */
+#logged-in-template {
+    display: none;
 }
+
+#logged-in-template, h2 {
+    font-weight: bold;
+    font-size: 50px;
+    
+}
+
+.container {
+    background-color: #129f43;
+    font-size: 30px;
+    color: black;
+}
+

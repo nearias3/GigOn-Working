@@ -265,7 +265,7 @@ function renderTemplate(targetId, templateId, data = null) {
   }
 
   if (data && data.top_tracks && data.top_tracks.items) {
-    const topTracksList = document.getElementById("top_artists");
+    const topTracksList = document.getElementById("top_tracks");
     if (topTracksList) {
       data.top_tracks.items.forEach((track) => {
         const li = document.createElement("li");

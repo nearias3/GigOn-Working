@@ -1,7 +1,25 @@
+document.getElementById("open-modal-button").addEventListener("click", () => {
+  const modal = document.getElementById("location-modal");
+  modal.classList.add("is-active");
+});
+
+document
+  .querySelectorAll(".modal .delete, .modal .cancel-button")
+  .forEach(($close) => {
+    const $target = $close.closest(".modal");
+
+    $close.addEventListener("click", () => {
+      $target.classList.remove("is-active");
+    });
+  });
+
 document.getElementById("search-button").addEventListener("click", () => {
   const location = document.getElementById("location-input").value;
+  const modal = document.getElementById("location-modal");
+
   if (location) {
     fetchConcerts(location);
+    modal.classList.remove("is-active");
   } else {
     alert("Please enter a city or zip code.");
   }
@@ -19,13 +37,16 @@ async function fetchConcerts(location) {
   }
 
   for (const artist of topArtists) {
+    const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=artist.getevents&artist=${encodeURIComponent(
+      artist.name
+    )}&api_key=${apiKey}&format=json`;
+    console.log(`Fetching events for ${artist.name} with URL: ${apiUrl}`);
+
     try {
-      const response = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=artist.getevents&artist=${artist.name}&api_key=${apiKey}&format=json`
-      );
+      const response = await fetch(apiUrl);
       const data = await response.json();
 
-      if (data.events && data.events.event) {
+      if (response.ok && data.events && data.events.event) {
         const filteredEvents = data.events.event.filter(
           (event) =>
             event.venue.location.city
@@ -50,7 +71,10 @@ async function fetchConcerts(location) {
           resultsContainer.innerHTML += `<p>No concerts found for ${artist.name} in ${location}.</p>`;
         }
       } else {
-        resultsContainer.innerHTML += `<p>No concerts found for ${artist.name} in ${location}.</p>`;
+        console.error(
+          `Error fetching events: ${data.message || "Unknown error"}`
+        );
+        resultsContainer.innerHTML += `<p>Error fetching concerts for ${artist.name}. Please try again later.</p>`;
       }
     } catch (error) {
       console.error(`Error fetching events for ${artist.name}:`, error);

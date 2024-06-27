@@ -25,69 +25,89 @@ document.addEventListener("DOMContentLoaded", function () {
       .getElementById("location-input")
       .value.trim();
     if (locationInput) {
-      fetchAndDisplayConcerts(locationInput);
+      const [city, countryCode] = locationInput
+        .split(",")
+        .map((item) => item.trim());
+      fetchAndDisplayConcerts(countryCode, city);
+      document.getElementById("location-modal").classList.remove("is-active");
     } else {
       alert("Please enter a city or zip code.");
     }
   });
-
-  // Function to fetch and display concerts
-  async function fetchAndDisplayConcerts(location) {
-    try {
-      const events = await fetchEventbriteEvents(location);
-      displayConcerts(events);
-    } catch (error) {
-      console.error("Error fetching concerts:", error);
-      alert("Error fetching concerts. Please try again later.");
-    }
-  }
-
-  // Function to fetch events from Eventbrite
-  async function fetchEventbriteEvents(location) {
-    const apiKey = "3IHMABF7MOOXV3HPLEC5"
-    const url = `https://www.eventbriteapi.com/v3/events/search/?location.address=${location}&token=${apiKey}`;
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (response.ok) {
-      return data.events;
-    } else {
-      console.error("Error fetching events from Eventbrite:", data.error);
-      throw new Error(data.error);
-    }
-  }
-
-  // Function to display concerts
-  function displayConcerts(events) {
-    const resultsDiv = document.getElementById("results");
-    resultsDiv.innerHTML = "";
-
-    if (events.length === 0) {
-      resultsDiv.textContent = "No concerts found.";
-      return;
-    }
-
-    events.forEach((event) => {
-      const eventElement = document.createElement("div");
-      eventElement.classList.add("event");
-
-      const eventTitle = document.createElement("h2");
-      eventTitle.textContent = event.name.text;
-
-      const eventDate = document.createElement("p");
-      eventDate.textContent = new Date(event.start.utc).toLocaleString();
-
-      const eventLink = document.createElement("a");
-      eventLink.href = event.url;
-      eventLink.textContent = "View Event";
-      eventLink.target = "_blank";
-
-      eventElement.appendChild(eventTitle);
-      eventElement.appendChild(eventDate);
-      eventElement.appendChild(eventLink);
-
-      resultsDiv.appendChild(eventElement);
-    });
-  }
 });
+
+// Function to fetch events from Ticketmaster
+function fetchTicketmasterEvents(countryCode, city) {
+  const apiKey = "n99815RxaKoko5cmGtzeStgXENAleAVV";
+  const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&countryCode=${countryCode}&city=${city}`;
+
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data._embedded && data._embedded.events) {
+        return data._embedded.events;
+      } else {
+        throw new Error("No events found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching events from Ticketmaster:", error);
+      throw error;
+    });
+}
+
+// Function to retrieve stored artists from local storage
+function getStoredArtists() {
+  const storedArtists = JSON.parse(localStorage.getItem("artists")) || [];
+  return storedArtists;
+}
+
+// Function to filter events by stored artists
+function filterEventsByStoredArtists(events, storedArtists) {
+  return events.filter((event) => {
+    const artistNames = event._embedded.attractions
+      ? event._embedded.attractions.map((attraction) => attraction.name)
+      : [];
+    return artistNames.some((artistName) => storedArtists.includes(artistName));
+  });
+}
+
+// Function to fetch and display concerts
+async function fetchAndDisplayConcerts(countryCode, city) {
+  try {
+    const events = await fetchTicketmasterEvents(countryCode, city);
+    const storedArtists = getStoredArtists();
+    const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
+
+    displayConcerts(filteredEvents);
+  } catch (error) {
+    console.error("Error fetching concerts:", error);
+  }
+}
+
+// Function to display concerts on the page
+function displayConcerts(events) {
+  const resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = "";
+
+  events.forEach((event) => {
+    const eventDiv = document.createElement("div");
+    eventDiv.className = "event";
+
+    const eventName = document.createElement("h2");
+    eventName.textContent = event.name;
+    eventDiv.appendChild(eventName);
+
+    const eventDate = document.createElement("p");
+    eventDate.textContent = `Date: ${new Date(
+      event.dates.start.dateTime
+    ).toLocaleString()}`;
+    eventDiv.appendChild(eventDate);
+
+    const eventVenue = document.createElement("p");
+    eventVenue.textContent = `Venue: ${event._embedded.venues[0].name}`;
+    eventDiv.appendChild(eventVenue);
+
+    resultsDiv.appendChild(eventDiv);
+  });
+}

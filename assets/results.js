@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const [city, countryCode] = locationInput
         .split(",")
         .map((item) => item.trim());
+      console.log(`City: ${city}, Country Code: ${countryCode}`); // Log the city and country code
       fetchAndDisplayConcerts(countryCode, city);
       document.getElementById("location-modal").classList.remove("is-active");
     } else {
@@ -41,9 +42,12 @@ function fetchTicketmasterEvents(countryCode, city) {
   const apiKey = "n99815RxaKoko5cmGtzeStgXENAleAVV";
   const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&countryCode=${countryCode}&city=${city}`;
 
+  console.log(`Fetching events from: ${url}`); // Log the URL
+
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
+      console.log("API response:", data); // Log the API response
       if (data._embedded && data._embedded.events) {
         return data._embedded.events;
       } else {

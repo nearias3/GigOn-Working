@@ -1,6 +1,5 @@
 const clientId = "8348b3df28ea43d7b78702da44acb211"; 
-const redirectUrl = "https://cneale92.github.io/gigON";
-
+const redirectUrl = "https://nearias3.github.io/GigOn-Working/";
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-private user-read-email user-top-read";

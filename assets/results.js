@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationModal = document.getElementById("location-modal");
     locationModal.classList.add("is-active");
   });
-
+lll
   // Close modal event listeners
   closeModalButtons.forEach((button) => {
     button.addEventListener("click", function () {
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to fetch events from Ticketmaster
 function fetchTicketmasterEvents(countryCode, city) {
   const apiKey = "n99815RxaKoko5cmGtzeStgXENAleAVV";
-  const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&countryCode=${countryCode}&city=${city}`;
+  const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&stateCode=${stateCode}&city=${city}`;
 
   console.log(`Fetching events from: ${url}`); // Log the URL
 

@@ -33,58 +33,61 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to fetch and display concerts
   async function fetchAndDisplayConcerts(location) {
-    const country = "USA";
     try {
-      const filteredArtists = await filterTopArtistsByStored(country);
-      // Use filteredArtists and location to fetch concerts from another API or service
-      // Example: displayConcerts(filteredArtists, location);
-      console.log("Filtered Artists:", filteredArtists);
-      console.log("Location:", location);
+      const events = await fetchEventbriteEvents(location);
+      displayConcerts(events);
     } catch (error) {
       console.error("Error fetching concerts:", error);
       alert("Error fetching concerts. Please try again later.");
     }
   }
 
-  // Function to fetch top artists from Last.fm
-  function fetchTopArtists(country) {
-    const apiKey = "311009ad05c5e835188a55a88b9d2955";
-    const url = `https://ws.audioscrobbler.com/2.0/?method=geo.gettopartists&country=${country}&api_key=${apiKey}&format=json`;
+  // Function to fetch events from Eventbrite
+  async function fetchEventbriteEvents(location) {
+    const apiKey = "3IHMABF7MOOXV3HPLEC5"
+    const url = `https://www.eventbriteapi.com/v3/events/search/?location.address=${location}&token=${apiKey}`;
 
-    return fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extract the list of artists from the response
-        const topArtists = data.topartists.artist.map((artist) => artist.name);
-        return topArtists;
-      })
-      .catch((error) => {
-        console.error("Error fetching top artists:", error);
-        throw error; // Propagate the error for handling further up
-      });
-  }
+    const response = await fetch(url);
+    const data = await response.json();
 
-  // Function to retrieve stored artists from local storage
-  function getStoredArtists() {
-    const storedArtists = JSON.parse(localStorage.getItem("artists")) || [];
-    return storedArtists;
-  }
-
-  // Function to filter top artists by stored artists
-  async function filterTopArtistsByStored(country) {
-    try {
-      const topArtists = await fetchTopArtists(country);
-      const storedArtists = getStoredArtists();
-
-      // Filter top artists based on stored artists
-      const filteredArtists = topArtists.filter((artist) =>
-        storedArtists.includes(artist)
-      );
-
-      return filteredArtists;
-    } catch (error) {
-      console.error("Error filtering top artists:", error);
-      throw error; // Propagate the error for handling further up
+    if (response.ok) {
+      return data.events;
+    } else {
+      console.error("Error fetching events from Eventbrite:", data.error);
+      throw new Error(data.error);
     }
+  }
+
+  // Function to display concerts
+  function displayConcerts(events) {
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    if (events.length === 0) {
+      resultsDiv.textContent = "No concerts found.";
+      return;
+    }
+
+    events.forEach((event) => {
+      const eventElement = document.createElement("div");
+      eventElement.classList.add("event");
+
+      const eventTitle = document.createElement("h2");
+      eventTitle.textContent = event.name.text;
+
+      const eventDate = document.createElement("p");
+      eventDate.textContent = new Date(event.start.utc).toLocaleString();
+
+      const eventLink = document.createElement("a");
+      eventLink.href = event.url;
+      eventLink.textContent = "View Event";
+      eventLink.target = "_blank";
+
+      eventElement.appendChild(eventTitle);
+      eventElement.appendChild(eventDate);
+      eventElement.appendChild(eventLink);
+
+      resultsDiv.appendChild(eventElement);
+    });
   }
 });

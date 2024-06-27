@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationModal = document.getElementById("location-modal");
     locationModal.classList.add("is-active");
   });
-lll
+
   // Close modal event listeners
   closeModalButtons.forEach((button) => {
     button.addEventListener("click", function () {

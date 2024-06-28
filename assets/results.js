@@ -60,15 +60,21 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to retrieve stored artists from local storage
   function getStoredArtists() {
     const storedArtists = JSON.parse(localStorage.getItem("top_artists")) || [];
-    return storedArtists.map((artist) => artist.name.toLowerCase());
+    return storedArtists.map((artist) => artist.name);
   }
 
-  // Function to filter events by stored artists
+  // Function to filter events by stored artists and ensure only concerts are included
   function filterEventsByStoredArtists(events, storedArtists) {
     return events.filter((event) => {
-      if (event._embedded && event._embedded.attractions) {
-        const artistNames = event._embedded.attractions.map((attraction) =>
-          attraction.name.toLowerCase()
+      const isConcert =
+        event.classifications &&
+        event.classifications.some(
+          (classification) =>
+            classification.segment && classification.segment.name === "Music"
+        );
+      if (event._embedded && event._embedded.attractions && isConcert) {
+        const artistNames = event._embedded.attractions.map(
+          (attraction) => attraction.name
         );
         return artistNames.some((artistName) =>
           storedArtists.includes(artistName)
@@ -84,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const events = await fetchTicketmasterEvents(stateCountry, city);
       const storedArtists = getStoredArtists();
       const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
+
       displayEvents(filteredEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -94,11 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayEvents(events) {
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = "";
-
-    if (events.length === 0) {
-      resultsDiv.textContent = "No concerts found for your favorite artists.";
-      return;
-    }
 
     events.forEach((event) => {
       const eventDiv = document.createElement("div");

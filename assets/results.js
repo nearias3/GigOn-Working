@@ -99,6 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
       eventName.textContent = event.name;
       eventDiv.appendChild(eventName);
 
+      if (event.images && event.images.length > 0) {
+        const eventImage = document.createElement("img");
+        eventImage.src = event.images[0].url;
+        eventImage.alt = event.name;
+        eventImage.style.maxWidth = "100%";
+        eventDiv.appendChild(eventImage);
+      }
+
       if (event.dates && event.dates.start && event.dates.start.dateTime) {
         const eventDate = document.createElement("p");
         eventDate.textContent = `Date: ${new Date(

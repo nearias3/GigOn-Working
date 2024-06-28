@@ -63,18 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
     return storedArtists;
   }
 
-  // Function to filter events by stored artists
-  function filterEventsByStoredArtists(events, storedArtists) {
+  // Function to filter events by concert-related criteria
+  function filterConcertEvents(events) {
     return events.filter((event) => {
-      if (event._embedded && event._embedded.attractions) {
-        const artistNames = event._embedded.attractions.map(
-          (attraction) => attraction.name
-        );
-        return artistNames.some((artistName) =>
-          storedArtists.includes(artistName)
-        );
-      }
-      return false;
+      // Check if the event type is related to music/concerts
+      return event.classifications.some(
+        (classification) =>
+          classification.segment.name === "Music" ||
+          classification.segment.name === "Concerts"
+      );
     });
   }
 
@@ -82,10 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchAndDisplayEvents(stateCountry, city) {
     try {
       const events = await fetchTicketmasterEvents(stateCountry, city);
-      const storedArtists = getStoredArtists();
-      const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
-
-      displayEvents(filteredEvents);
+      const concertEvents = filterConcertEvents(events);
+      displayEvents(concertEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
     }

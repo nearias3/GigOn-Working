@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to fetch events from Ticketmaster
   function fetchTicketmasterEvents(stateCountry, city) {
     const apiKey = "n99815RxaKoko5cmGtzeStgXENAleAVV";
-    const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&stateCode=${stateCountry}&city=${city}`;
+    const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&stateCode=${stateCountry}&city=${city}&classificationName=Music`;
 
     console.log(`Fetching events from: ${url}`);
 
@@ -63,16 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
     return storedArtists.map((artist) => artist.name);
   }
 
-  // Function to filter events by stored artists and ensure only concerts are included
+  // Function to filter events by stored artists
   function filterEventsByStoredArtists(events, storedArtists) {
     return events.filter((event) => {
-      const isConcert =
-        event.classifications &&
-        event.classifications.some(
-          (classification) =>
-            classification.segment && classification.segment.name === "Music"
-        );
-      if (event._embedded && event._embedded.attractions && isConcert) {
+      if (event._embedded && event._embedded.attractions) {
         const artistNames = event._embedded.attractions.map(
           (attraction) => attraction.name
         );

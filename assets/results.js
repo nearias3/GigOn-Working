@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .map((item) => item.trim());
       fetchAndDisplayEvents(stateCountry, city);
     } else {
-      alert("Please enter a city, state or country code.");
+      alert("Please enter a city, state, or country code.");
     }
   });
 
@@ -59,19 +59,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to retrieve stored artists from local storage
   function getStoredArtists() {
-    const storedArtists = JSON.parse(localStorage.getItem("artists")) || [];
-    return storedArtists;
+    const storedArtists = JSON.parse(localStorage.getItem("top_artists")) || [];
+    return storedArtists.map((artist) => artist.name.toLowerCase());
   }
 
-  // Function to filter events by concert-related criteria
-  function filterConcertEvents(events) {
+  // Function to filter events by stored artists
+  function filterEventsByStoredArtists(events, storedArtists) {
     return events.filter((event) => {
-      // Check if the event type is related to music/concerts
-      return event.classifications.some(
-        (classification) =>
-          classification.segment.name === "Music" ||
-          classification.segment.name === "Concerts"
-      );
+      if (event._embedded && event._embedded.attractions) {
+        const artistNames = event._embedded.attractions.map((attraction) =>
+          attraction.name.toLowerCase()
+        );
+        return artistNames.some((artistName) =>
+          storedArtists.includes(artistName)
+        );
+      }
+      return false;
     });
   }
 
@@ -79,8 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchAndDisplayEvents(stateCountry, city) {
     try {
       const events = await fetchTicketmasterEvents(stateCountry, city);
-      const concertEvents = filterConcertEvents(events);
-      displayEvents(concertEvents);
+      const storedArtists = getStoredArtists();
+      const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
+      displayEvents(filteredEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -90,6 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function displayEvents(events) {
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = "";
+
+    if (events.length === 0) {
+      resultsDiv.textContent = "No concerts found for your favorite artists.";
+      return;
+    }
 
     events.forEach((event) => {
       const eventDiv = document.createElement("div");

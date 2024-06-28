@@ -117,6 +117,14 @@ document.addEventListener("DOMContentLoaded", function () {
         eventDiv.appendChild(eventVenue);
       }
 
+      if (event.url) {
+        const eventLink = document.createElement("a");
+        eventLink.href = event.url;
+        eventLink.textContent = "Buy Tickets";
+        eventLink.target = "_blank";
+        eventDiv.appendChild(eventLink);
+      }
+
       resultsDiv.appendChild(eventDiv);
     });
   }

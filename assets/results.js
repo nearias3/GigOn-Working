@@ -34,26 +34,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Function to fetch events from Ticketmaster
-  function fetchTicketmasterEvents(stateCountry, city) {
+  // Function to fetch events from Ticketmaster for a specific artist
+  function fetchTicketmasterEvents(stateCountry, city, artist) {
     const apiKey = "n99815RxaKoko5cmGtzeStgXENAleAVV";
-    const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&stateCode=${stateCountry}&city=${city}&classificationName=Music`;
+    const url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apiKey}&stateCode=${stateCountry}&city=${city}&classificationName=Music&keyword=${encodeURIComponent(
+      artist
+    )}`;
 
-    console.log(`Fetching events from: ${url}`);
+    console.log(`Fetching events for ${artist} from: ${url}`);
 
     return fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("API response:", data);
+        console.log(`API response for ${artist}:`, data);
         if (data._embedded && data._embedded.events) {
           return data._embedded.events;
         } else {
-          throw new Error("No events found");
+          return [];
         }
       })
       .catch((error) => {
-        console.error("Error fetching events from Ticketmaster:", error);
-        throw error;
+        console.error(`Error fetching events for ${artist}:`, error);
+        return [];
       });
   }
 
@@ -63,32 +65,25 @@ document.addEventListener("DOMContentLoaded", function () {
     return storedArtists.map((artist) => artist.name);
   }
 
-  // Function to filter events by stored artists
-  function filterEventsByStoredArtists(events, storedArtists) {
-    return events.filter((event) => {
-      if (event._embedded && event._embedded.attractions) {
-        const artistNames = event._embedded.attractions.map(
-          (attraction) => attraction.name
-        );
-        return artistNames.some((artistName) =>
-          storedArtists.includes(artistName)
-        );
-      }
-      return false;
-    });
-  }
-
   // Function to fetch and display events
   async function fetchAndDisplayEvents(stateCountry, city) {
-    try {
-      const events = await fetchTicketmasterEvents(stateCountry, city);
-      const storedArtists = getStoredArtists();
-      const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
+    const storedArtists = getStoredArtists();
+    const allEvents = [];
 
-      displayEvents(filteredEvents);
-    } catch (error) {
-      console.error("Error fetching events:", error);
+    for (const artist of storedArtists) {
+      try {
+        const events = await fetchTicketmasterEvents(
+          stateCountry,
+          city,
+          artist
+        );
+        allEvents.push(...events);
+      } catch (error) {
+        console.error(`Error fetching events for ${artist}:`, error);
+      }
     }
+
+    displayEvents(allEvents);
   }
 
   // Function to display events on the page

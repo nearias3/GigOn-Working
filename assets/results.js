@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const [city, stateCountry] = locationInput
         .split(",")
         .map((item) => item.trim());
-      fetchAndDisplayConcerts(stateCountry, city);
+      fetchAndDisplayEvents(stateCountry, city);
     } else {
       alert("Please enter a city, state or country code.");
     }
@@ -66,30 +66,33 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to filter events by stored artists
   function filterEventsByStoredArtists(events, storedArtists) {
     return events.filter((event) => {
-      const artistNames = event._embedded.attractions
-        ? event._embedded.attractions.map((attraction) => attraction.name)
-        : [];
-      return artistNames.some((artistName) =>
-        storedArtists.includes(artistName)
-      );
+      if (event._embedded && event._embedded.attractions) {
+        const artistNames = event._embedded.attractions.map(
+          (attraction) => attraction.name
+        );
+        return artistNames.some((artistName) =>
+          storedArtists.includes(artistName)
+        );
+      }
+      return false;
     });
   }
 
-  // Function to fetch and display concerts
-  async function fetchAndDisplayConcerts(stateCountry, city) {
+  // Function to fetch and display events
+  async function fetchAndDisplayEvents(stateCountry, city) {
     try {
       const events = await fetchTicketmasterEvents(stateCountry, city);
       const storedArtists = getStoredArtists();
       const filteredEvents = filterEventsByStoredArtists(events, storedArtists);
 
-      displayConcerts(filteredEvents);
+      displayEvents(filteredEvents);
     } catch (error) {
-      console.error("Error fetching concerts:", error);
+      console.error("Error fetching events:", error);
     }
   }
 
-  // Function to display concerts on the page
-  function displayConcerts(events) {
+  // Function to display events on the page
+  function displayEvents(events) {
     const resultsDiv = document.getElementById("results");
     resultsDiv.innerHTML = "";
 
@@ -101,15 +104,23 @@ document.addEventListener("DOMContentLoaded", function () {
       eventName.textContent = event.name;
       eventDiv.appendChild(eventName);
 
-      const eventDate = document.createElement("p");
-      eventDate.textContent = `Date: ${new Date(
-        event.dates.start.dateTime
-      ).toLocaleString()}`;
-      eventDiv.appendChild(eventDate);
+      if (event.dates && event.dates.start && event.dates.start.dateTime) {
+        const eventDate = document.createElement("p");
+        eventDate.textContent = `Date: ${new Date(
+          event.dates.start.dateTime
+        ).toLocaleString()}`;
+        eventDiv.appendChild(eventDate);
+      }
 
-      const eventVenue = document.createElement("p");
-      eventVenue.textContent = `Venue: ${event._embedded.venues[0].name}`;
-      eventDiv.appendChild(eventVenue);
+      if (
+        event._embedded &&
+        event._embedded.venues &&
+        event._embedded.venues.length > 0
+      ) {
+        const eventVenue = document.createElement("p");
+        eventVenue.textContent = `Venue: ${event._embedded.venues[0].name}`;
+        eventDiv.appendChild(eventVenue);
+      }
 
       resultsDiv.appendChild(eventDiv);
     });

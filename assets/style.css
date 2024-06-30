@@ -1,29 +1,23 @@
-#main{
+#main {
 
-    background-color: rgba(124, 151, 4, 0.26);
+    background-color: #e0eeb4;
     display:flex;
     justify-content: center;
     height:auto;
+    color: black;
 
 }
 
-body { 
-    background-color: #1DB954;
-}
 
 
 header{
 
-    background-color: rgba(124, 151, 4, 0.26); /*Not final */
-
+    background-color: #e0eeb4; /*Not final */
+    color: black;
     display: flex;
-
     flex-direction: row;
-
     width:auto;
-
     height:125px;
-
     align-content: center;
 
 
@@ -77,7 +71,7 @@ header{
     margin:30px;
     
     border:none;
-    background-color:rgba(255, 166, 0, 0.501);
+    background-color:#f7d974;
     border-radius:10px;
 
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -100,7 +94,7 @@ header{
 }
 
 #concertSearchBtn {
-    background-color: rgba(255, 166, 0, 0.501);
+    background-color: #f7d974;
     color: white;
     height: 100px;
     width: 350px;
@@ -113,7 +107,7 @@ header{
 
 #heroBanner{
 
-    background-color:  rgba(255, 166, 0, 0.501); !important;
+    background-color: #f7d974;
     height:600px;
 }
 
@@ -129,24 +123,15 @@ header{
 #promptText{
 
     text-align: center;
-
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
     font-size: 48px;
-
     color:black;
-
     transform:translateY(-200px); 
-    
-
 }
-
-
-/*HOVER */
 
 .navBtn:hover{
 
-    background-color: rgba(255, 255, 0, 0.386);
+    background-color: #e0eeb4;
 
 }
 

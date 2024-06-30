@@ -24,17 +24,13 @@
 
 header{
 
-    background-color: #e0eeb4; /*Not final */
+    background-color: #e0eeb4;
     color: black;
     display: flex;
     flex-direction: row;
     width:auto;
     height:125px;
     align-content: center;
-
-
-    
-
 }
 
 #logoCoupling{
@@ -47,9 +43,7 @@ header{
 #simplifiedLogo{
 
     font-size: 48px;
-
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
     color:black;
 
 }
@@ -57,21 +51,6 @@ header{
 #logoSubtitle{
 
     margin-top:-10px;
-
-}
-
-#navButtons{
-
-    margin-top: auto;
-    margin-bottom: auto;
-    width:1300px;
-    display: flex; 
-    align-items: center;
-    margin-left:300px; /*will find a better way to center this or otherwise */
-
-   
-    
-
 
 }
 
@@ -88,7 +67,7 @@ header{
     justify-content: center;
 }
 
-.token{
+.token {
 
     width:100px;
     margin:30px;
@@ -154,4 +133,10 @@ header{
 
 #oauth-template {
     display: none;
+}
+
+#top_artists {
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    font-size: 10px;
 }

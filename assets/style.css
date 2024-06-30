@@ -3,7 +3,7 @@
     background-color: #e0eeb4;
     display:flex;
     justify-content: center;
-    height:auto;
+    height: fit-content;
     color: black;
 
 }
@@ -134,4 +134,8 @@ header{
 
 #oauth-template {
     display: none;
+}
+
+#top_artists {
+    font-size: 45px;
 }

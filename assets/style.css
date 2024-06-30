@@ -99,6 +99,11 @@ header{
 #concertSearchBtn {
     background-color: rgba(255, 166, 0, 0.501);
     color: white;
+    height: 100px;
+    width: 100px;
+    padding: 20px;
+    font-size: xx-large;
+    margin-top: 25px;
 }
 
 

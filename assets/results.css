@@ -17,7 +17,7 @@ body {
     display:flex;
     flex-direction: column;
     justify-content: center;
-    position: fixed;
+    position: absolute;
 }
 
 #homeButton{
@@ -68,7 +68,7 @@ body {
 
 }
 
-#text_search_results{
+#find-a-concert {
     margin-top:20px;
     font-weight: bold;
     border-radius:10px;
@@ -144,12 +144,5 @@ body {
 #results {
     margin-top: 20px;
     display: block;
-    text-align: center;
-}
-
-#find-concert-title {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
     text-align: center;
 }

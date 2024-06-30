@@ -95,7 +95,9 @@ header{
     height: 100px;
     width: 350px;
     font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: center;
     font-size: x-large;
     margin-top: 25px;
 }

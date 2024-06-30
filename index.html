@@ -13,52 +13,62 @@
 
 <body>
 
-  <header>
+   <header>
+
       <div id="logoCoupling">
           <h1 id="simplifiedLogo">gigON!</h1>
           <h2 id="logoSubtitle">powered by Spotify</h2>
       </div>
+        
+        <template id="login">
+          <button class="navBtn" id="spotifyAuthenticationBtn" id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
+        </template>
+
+      </div>
+    
   </header>
+    
+
 
   <div id="heroBanner">
-      <img id="exclamationGuy" src="assets/img_assets/gigON_logo.png"><!--Actually his name is Gig--><br>
-      <h1 id="promptText">Discover Live Shows Near You</h1> <!--Prompt text-->
-    </div>
+      <img id="exclamationGuy" src="assets/img_assets/gigON_logo.png"><br>
+      <h1 id="promptText">Discover Live Shows Near You </h1>
+  </div>
 
-    <div id="main"></div>
-    <div id="oauth"></div>
+  <div id="main">
+  <div id="oauth"></div> <!--band aid solution this will mess up stuff-->
+  
+    
 
-    <template id="login">
-     <button id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
-    </template>
-
+   
   <template id="logged-in-template">
     <div id="left-panel">
-      <h1>Logged in as <span data-bind="display_name"></span></h1>
-      
-      <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
+    <h1>Logged in as <span data-bind="display_name"></span></h1>
     
-      <table>
-        <tr>
-          <td>Display name</td>
-          <td data-bind="display_name"></td>
-        </tr>
-      </table>
+    <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
+    <table>
+      <tr>
+        <td>Display name</td>
+        <td data-bind="display_name"></td>
+      </tr>
+    </table>
     </div>
 
     <div id="right-panel"> 
     <h2>Top Artists</h2>
       <ol class="container" id="top_artists"></ol>
-    <h2> Top Tracks</h2>
-      <ol class="container" id="top_tracks"></ol>
     </div>
+
+    <a class="button" id="concertSearchBtn" onclick="window.location.href='results.html'">Search For A Concert<a>
 
   </template>
 
-  <button class="button is-warning is-large" onclick="window.location.href='results.html'">Find Concerts</button>
 
-  <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
-  <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
+<button class="navBtn" id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
+      
+
+<button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
+<button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
 
 
     
@@ -79,8 +89,6 @@
       </tr>
     </table>
   </template>
-
-</div>
 
 <script src="./assets/script.js"></script>
 </body>

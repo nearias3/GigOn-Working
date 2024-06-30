@@ -1,6 +1,6 @@
 #main{
 
-    background-color: rgba(124, 151, 4);
+    background-color: rgba(124, 151, 4, 0.26);
     display:flex;
     justify-content: center;
     height:auto;
@@ -10,7 +10,7 @@
 
 header{
 
-    background-color: rgba(124, 151, 4); /*Not final */
+    background-color: rgba(124, 151, 4, 0.26); /*Not final */
 
     display: flex;
 
@@ -73,7 +73,7 @@ header{
     margin:30px;
     
     border:none;
-    background-color:rgba(255, 166, 0);
+    background-color:rgba(255, 166, 0, 0.501);
     border-radius:10px;
 
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -85,21 +85,22 @@ header{
 
 }
 
-#spotifyAuthenticationBtn{
+#login-button {
 
     
     height:100px;
     width:500px;
     padding:20px;
     font-size: xx-large;
-    
     margin-top:25px;
-    
-    
-
     
 }
 
+#concertSearchBtn {
+
+    /* is currently not appearing anywhere on the page, would like it to be floating somewhere next to the spotify artists stats once the user is logged in */
+    
+}
 
 
 
@@ -113,7 +114,7 @@ header{
     
 
 
-    --bannerColor: rgba(255, 166, 0);
+    --bannerColor: rgba(255, 166, 0, 0.501);
      background-color: var(--bannerColor);  /* Color may be used more than once */
     height:600px;
 }
@@ -147,11 +148,9 @@ header{
 
 .navBtn:hover{
 
-    background-color: rgba(255, 255, 0);
+    background-color: rgba(255, 255, 0, 0.386);
 
 }
-
-
 
 #oauth-template {
     display: none;

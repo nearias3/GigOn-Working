@@ -56,13 +56,11 @@ if (currentToken.access_token) {
   (async () => {
     const userData = await getUserData();
     const topArtists = await getTopArtists();
-    const topTracks = await getTopTracks();
 
-    //combined user data with top artists and tracks to simplify code down the line for binding
+    //combined user data with top artists to simplify code down the line for binding
     const combinedData = {
           ...userData,
           top_artists: topArtists,
-          top_tracks: topTracks,
         };
 
     console.log("User data fetched:", combinedData);
@@ -175,16 +173,6 @@ async function getTopArtists() {
   return await response.json();
 }
 
-// function to retrieve user's top tracks
-async function getTopTracks() {
-  const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
-    method: "GET",
-    headers: { Authorization: "Bearer " + currentToken.access_token },
-  });
-
-  return await response.json();
-}
-
 
 // Click handlers
 
@@ -203,7 +191,7 @@ async function refreshTokenClick() {
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
-// HTML Template Rendering with basic data binding - demoware only.
+// HTML Template Rendering with data binding
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
   if (!template) {
@@ -252,7 +240,7 @@ function renderTemplate(targetId, templateId, data = null) {
   target.innerHTML = "";
   target.appendChild(clone);
 
-  // Render top artists and top tracks if they're available to display in the html
+  // Render top artists if they're available to display in the html
 
   if (data && data.top_artists && data.top_artists.items) {
     const topArtistsList = document.getElementById("top_artists");
@@ -261,17 +249,6 @@ function renderTemplate(targetId, templateId, data = null) {
         const li = document.createElement("li");
         li.textContent = artist.name;
         topArtistsList.appendChild(li);
-      });
-    }
-  }
-
-  if (data && data.top_tracks && data.top_tracks.items) {
-    const topTracksList = document.getElementById("top_tracks");
-    if (topTracksList) {
-      data.top_tracks.items.forEach((track) => {
-        const li = document.createElement("li");
-        li.textContent = track.name;
-        topTracksList.appendChild(li);
       });
     }
   }

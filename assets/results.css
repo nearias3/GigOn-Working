@@ -38,7 +38,7 @@ body {
 
 #homeIcon{
 
-    background-color:rgba(255, 166, 0, 0.501);
+    background-color: #f7d974;
 
 }
 
@@ -84,7 +84,7 @@ body {
     padding:20px;
     font-size:xx-large;
 
-    background-color: rgb(223, 198, 72); 
+    background-color: #f7d974; 
     color: white;
 }
 

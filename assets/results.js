@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .split(",")
         .map((item) => item.trim());
       fetchAndDisplayEvents(stateCountry, city);
-      locationModal.classList.remove("is-active");
     } else {
       alert("Please enter a city, state, or country code.");
     }
@@ -85,6 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     displayEvents(allEvents);
+
+    // Close modal if events are fetched successfully
+    const locationModal = document.getElementById("location-modal");
+    locationModal.classList.remove("is-active");
+
   }
 
   // Function to display events on the page

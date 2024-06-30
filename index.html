@@ -17,12 +17,6 @@
           <h1 id="simplifiedLogo">gigON!</h1>
           <h2 id="logoSubtitle">powered by Spotify</h2>
       </div>
-
-      <div id="navButtons">
-        <button class="navBtn">My Artists</button>
-        <button class="navBtn" onclick="window.location.href='results.html'">Favorited Concerts</button>
-      </div>
-    </div>
   </header>
     
 
@@ -70,6 +64,8 @@
     </div>
 
 </template>
+
+  <button class="button is-warning is-large" onclick="window.location.href='results.html'">Find Concerts</button>
 
 <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
 <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>

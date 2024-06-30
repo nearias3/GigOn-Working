@@ -89,7 +89,7 @@ header{
     
 }
 
-#concertSearchBtn {
+.button {
     background-color: #f7d974;
     color: black;
     height: 100px;
@@ -137,5 +137,5 @@ header{
 }
 
 #top_artists {
-    font-size: 45px;
+    font-size: 25px;
 }

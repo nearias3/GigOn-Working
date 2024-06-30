@@ -139,5 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       resultsDiv.appendChild(eventDiv);
     });
+
+    // Code to not show the container with the results until after the data populates
+    const concertResultContainer = document.querySelector(".concertresultboxcontainer");
+    concertResultContainer.style.display = "block";
   }
 });

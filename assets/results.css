@@ -1,6 +1,6 @@
 body {
 
-    background-color:rgba(124, 151, 4, 0.26);
+    background-color: rgb(135, 234, 135);
     height:2000px;
 
 }
@@ -83,7 +83,7 @@ body {
 
 /* Search results div */
 #searchResultsDiv{
-    
+    display: none;
     display: flex;
     flex-direction: column;
     
@@ -104,8 +104,8 @@ body {
     padding:20px;
     font-size:xx-large;
 
-    background-color:orange; 
-
+    background-color: rgb(223, 198, 72); 
+    color: white;
 }
 
 #concertResultBoxContainer{
@@ -125,12 +125,12 @@ body {
     padding:20px;
     border-radius: 50px;
 
-    background-color: rgba(255, 166, 0, 0.501);
+    background-color: rgb(223, 198, 72);
     
 
 }
 
-.img{
+.img {
 
     width:240px;
     border:solid;
@@ -142,7 +142,7 @@ body {
 
 }
 
-.p{
+.p {
 
     display: flex;
     justify-content: center;
@@ -150,14 +150,14 @@ body {
 
 }
 
-.favoriteBtnContainer{
+.favoriteBtnContainer {
 
     margin-bottom:auto;
     margin-top:auto;  
 
 }
 
-#favoriteBtn{
+#favoriteBtn {
 
     padding:20px;
     border-radius:60px;

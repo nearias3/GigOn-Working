@@ -42,27 +42,24 @@
 
    
   <template id="logged-in-template">
-    <div id="left-panel">
-    <h1>Logged in as <span data-bind="display_name"></span></h1>
-    
-    <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
 
+    <div id="left-panel">
+      <h1>Logged in as <span data-bind="display_name"></span></h1>
+      <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
     </div>
 
     <div id="right-panel"> 
-    <h2>Top Artists</h2>
+      <h2>Top Artists</h2>
       <ol class="container" id="top_artists"></ol>
     </div>
 
     <a class="button" id="concertSearchBtn" onclick="window.location.href='results.html'">Search For A Concert<a>
-
-<button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
-<button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
+    <button class="navBtn" id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
+    <button class="navBtn" id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
 
   </template>
 
-
-<button class="navBtn" id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
+    <button class="navBtn" id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
       
 
 

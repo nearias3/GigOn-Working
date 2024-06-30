@@ -11,11 +11,13 @@
 #left-panel {
     display: column;
     justify-content: left;
+    margin-right: 200px;
 }
 
 #right-panel {
     display: column;
     justify-content: right;
+    margin-right: 200px;
 }
 
 

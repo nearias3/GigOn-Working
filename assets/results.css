@@ -1,23 +1,17 @@
 body {
-
     background-color: #e0eeb4;
     height:2000px;
-
 }
 
 
 #allDiv {
-
     display:flex;
     flex-direction: row;
     justify-content: space-around;
-
 }
 
 
 
-
-/*left div */
 #leftDiv{
 
     display:flex;
@@ -100,19 +94,22 @@ body {
 
 .event{
     width:700px;
-    display:flex;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     margin-top:50px;
-    flex-direction: column;
     padding:20px;
-    border-radius: 50px;
-
-    background-color: rgb(223, 198, 72);
-    
-
+    border-radius: 20px;
+    background-color: #f7d974;
 }
 
-.img {
+.event h2 {
+    color: black;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.event img {
 
     width:240px;
     border:solid;
@@ -124,24 +121,36 @@ body {
 
 }
 
-.p {
-
+.event p {
+    color: black;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-
 }
 
-.favoriteBtnContainer {
-
-    margin-bottom:auto;
-    margin-top:auto;  
-
+.event a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2e8b57; /* Dark green background */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
-#favoriteBtn {
+.event a:hover {
+    background-color: #e0eeb4; 
+}
 
-    padding:20px;
-    border-radius:60px;
+#results {
+    margin-top: 20px;
+    text-align: center;
+}
 
+#find-concert-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
 }

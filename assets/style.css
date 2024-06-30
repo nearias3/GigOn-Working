@@ -106,10 +106,9 @@ header{
 }
 
 
-
-
-
-
+.concertresultboxcontainer {
+    display: none;
+}
 
 
 #heroBanner{

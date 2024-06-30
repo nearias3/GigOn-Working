@@ -1,10 +1,29 @@
+#main{
+
+    background-color: rgba(124, 151, 4, 0.26);
+    display:flex;
+    justify-content: center;
+    height:auto;
+
+}
+
+
 header{
 
-    background-color: #1ED760  /*Not final */
+    background-color: rgba(124, 151, 4, 0.26); /*Not final */
 
     display: flex;
 
     flex-direction: row;
+
+    width:auto;
+
+    height:125px;
+
+    align-content: center;
+
+
+    
 
 }
 
@@ -12,6 +31,7 @@ header{
 
     margin-left:20px;
     margin-right:70px;
+    align-content: center;
 }
 
 #simplifiedLogo{
@@ -26,7 +46,7 @@ header{
 
 #logoSubtitle{
 
-    margin-top:-15px;
+    margin-top:-10px;
 
 }
 
@@ -34,10 +54,16 @@ header{
 
     margin-top: auto;
     margin-bottom: auto;
+    width:1300px;
 
     display: flex; 
 
     align-items: center;
+    margin-left:300px; /*will find a better way to center this or otherwise */
+
+   
+    
+
 
 }
 
@@ -59,13 +85,19 @@ header{
 
 }
 
-#login-button{
+#spotifyAuthenticationBtn{
 
-    margin-left:300px;
+    
+    height:100px;
     width:500px;
     padding:20px;
     font-size: xx-large;
+    
+    margin-top:25px;
+    
+    
 
+    
 }
 
 
@@ -78,87 +110,43 @@ header{
 
 #heroBanner{
 
-    --bannerColor: rgba(255, 166, 0, 0.501);
-    max-width: 100%;
-    height: 250px;
-    background-color: var(--bannerColor);  /* Color may be used more than once */
     
+
+
+    --bannerColor: rgba(255, 166, 0, 0.501);
+     background-color: var(--bannerColor);  /* Color may be used more than once */
+    height:600px;
 }
 
 #exclamationGuy{
-    max-height: 350px;
-    display: flex;
-    justify-content: center;
+
+    
+    display:block;
     margin-left:auto;
     margin-right:auto;
-    padding-bottom: 75px;
 
 }
 
 #promptText{
 
     text-align: center;
-    padding-top: 10px;
+
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 30px;
+
+    font-size: 48px;
+
     color:black;
+
     transform:translateY(-200px); 
     
 
 }
 
 
-#oauth-template {
-    display: none;
+/*HOVER */
+
+.navBtn:hover{
+
+    background-color: rgba(255, 255, 0, 0.386);
+
 }
-
-tr:nth-child(even) {
-    background-color: #eee;
-}
-
-td:first-child {
-    font-weight: bold;
-}
-
-td {
-    white-space: nowrap;
-    padding: 10px;
-    margin-right: 1rem;
-}
-
-#left-panel, #right-panel {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 600px;
-    margin: 10px 0;
-}
-
-#logged-in-template {
-    display: none;
-}
-
-#right-panel, h2 {
-    font-weight: bold;
-    font-size: 50px;
-    display: flex;
-    justify-content: center;
-    
-}
-
-.container {
-    background-color: #129f43;
-    font-size: 30px;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    max-width: fit-content;
-    align-items: center;
-}
-
-#oauth-template, h2 {
-    font-weight: bold;
-    font-size: 25px;
-    display: flex;
-    justify-content: center;}
-

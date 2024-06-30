@@ -134,9 +134,3 @@ header{
 #oauth-template {
     display: none;
 }
-
-#top_artists {
-    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
-    font-weight: bold;
-    font-size: 10px;
-}

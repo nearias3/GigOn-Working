@@ -8,6 +8,16 @@
 
 }
 
+#left-panel {
+    display: column;
+    justify-content: left;
+}
+
+#right-panel {
+    display: column;
+    justify-content: right;
+}
+
 
 
 header{
@@ -53,7 +63,6 @@ header{
     margin-top: auto;
     margin-bottom: auto;
     width:1300px;
-
     display: flex; 
 
     align-items: center;
@@ -95,7 +104,7 @@ header{
 
 #concertSearchBtn {
     background-color: #f7d974;
-    color: white;
+    color: black;
     height: 100px;
     width: 350px;
     padding: 20px;

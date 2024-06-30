@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Code to not show the container with the results until after the data populates
-    const concertResultContainer = document.getElementById("concertResultBoxContainer");
+    const concertResultContainer = document.getElementById("searchResultsDiv");
     concertResultContainer.style.display = "block";
   }
 });

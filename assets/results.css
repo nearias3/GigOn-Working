@@ -68,7 +68,7 @@ body {
 
 }
 
-#find-concert-title {
+#findConcert {
     margin-top:20px;
     font-weight: bold;
     border-radius:10px;
@@ -83,10 +83,6 @@ body {
 
     background-color: #f7d974; 
     color: white;
-}
-
-#searchResultsDiv {
-    display: none;
 }
 
 .event{

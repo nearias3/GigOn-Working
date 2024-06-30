@@ -1,38 +1,50 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const openModalButton = document.getElementById("open-modal-button");
-  const closeModalButtons = document.querySelectorAll(
-    ".delete, .cancel-button"
-  );
-  const searchButton = document.getElementById("search-button");
+    const openModalButton = document.getElementById("open-modal-button");
+    const closeModalButtons = document.querySelectorAll(".delete, .cancel-button");
+    const searchButton = document.getElementById("search-button");
+    const locationInput = document.getElementById("location-input");
 
-  // Open modal event listener
-  openModalButton.addEventListener("click", function () {
-    const locationModal = document.getElementById("location-modal");
-    locationModal.classList.add("is-active");
-  });
-
-  // Close modal event listeners
-  closeModalButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      const locationModal = document.getElementById("location-modal");
-      locationModal.classList.remove("is-active");
+    // Open modal event listener
+    openModalButton.addEventListener("click", function () {
+        const locationModal = document.getElementById("location-modal");
+        locationModal.classList.add("is-active");
+        locationInput.value = ""; // Clear previous input on modal open
+        document.getElementById("error-message").textContent = ""; // Clear previous error message
     });
-  });
 
-  // Search button event listener
-  searchButton.addEventListener("click", function () {
-    const locationInput = document
-      .getElementById("location-input")
-      .value.trim();
-    if (locationInput) {
-      const [city, stateCountry] = locationInput
-        .split(",")
-        .map((item) => item.trim());
-      fetchAndDisplayEvents(stateCountry, city);
-    } else {
-      alert("Please enter a city, state, or country code.");
-    }
-  });
+    // Close modal event listeners
+    closeModalButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const locationModal = document.getElementById("location-modal");
+            locationModal.classList.remove("is-active");
+        });
+    });
+
+    // Search button event listener
+    searchButton.addEventListener("click", function () {
+        const locationValue = locationInput.value.trim();
+        const locationPattern = /^[a-zA-Z\s]+,\s*[A-Z]{2}$/; // Regex pattern for "City, StateCode" format
+
+        if (!locationPattern.test(locationValue)) {
+            document.getElementById("error-message").textContent = "Please enter a valid location format (e.g., Austin, TX).";
+            return; // Prevent further execution if format is incorrect
+        }
+
+        const [city, stateCountry] = locationValue.split(",").map((item) => item.trim());
+        fetchAndDisplayEvents(stateCountry, city);
+        
+        // Close modal if search is successful
+        const locationModal = document.getElementById("location-modal");
+        locationModal.classList.remove("is-active");
+    });
+
+    // Cancel button event listener (to close modal)
+    const cancelButton = document.querySelector(".cancel-button");
+    cancelButton.addEventListener("click", function () {
+        const locationModal = document.getElementById("location-modal");
+        locationModal.classList.remove("is-active");
+    });
+});
 
   // Function to fetch events from Ticketmaster for a specific artist
   function fetchTicketmasterEvents(stateCountry, city, artist) {
@@ -144,4 +156,3 @@ document.addEventListener("DOMContentLoaded", function () {
     const concertResultContainer = document.getElementById("searchResultsDiv");
     concertResultContainer.style.display = "block";
   }
-});

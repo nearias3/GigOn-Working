@@ -97,9 +97,8 @@ header{
 }
 
 #concertSearchBtn {
-
-    /* is currently not appearing anywhere on the page, would like it to be floating somewhere next to the spotify artists stats once the user is logged in */
-    
+    background-color: rgba(255, 166, 0, 0.501);
+    color: white;
 }
 
 

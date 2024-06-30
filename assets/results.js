@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const eventImage = document.createElement("img");
         eventImage.src = event.images[0].url;
         eventImage.alt = event.name;
-        eventImage.style.maxWidth = "100%";
         eventDiv.appendChild(eventImage);
       }
 

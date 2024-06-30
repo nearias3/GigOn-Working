@@ -94,8 +94,9 @@ header{
     color: black;
     height: 100px;
     width: 350px;
+    font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;
     padding: 20px;
-    font-size: xx-large;
+    font-size: x-large;
     margin-top: 25px;
 }
 

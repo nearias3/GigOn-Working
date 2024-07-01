@@ -91,8 +91,8 @@ header{
 }
 
 .button {
-    background-color: #f7d974;
-    color: black;
+    background-color: black;
+    color: white;
     height: 100px;
     width: 350px;
     font-family: Impact, 'Haettenschweiler', 'Arial Narrow Bold', sans-serif;

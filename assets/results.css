@@ -31,28 +31,6 @@ body {
     background-color: #000000;
 }
 
-#tipAndGig {
-    margin-top: 100px;
-    flex-direction: column;
-}
-
-#tipBox {
-    background-color: aliceblue;
-    border-radius: 20px;
-    padding: 20px;
-    font-size: x-large;
-    font-weight: bold;
-    text-align: center;
-    width: 800px;
-}
-
-#Gig {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-}
-
 #findConcert {
     margin-top: 20px;
     font-weight: bold;

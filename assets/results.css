@@ -96,7 +96,7 @@ body {
 }
 
 .event h2 {
-    color: black;
+    color: white;
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -115,7 +115,7 @@ body {
 }
 
 .event p {
-    color: black;
+    color: white;
     font-size: 18px;
     display: flex;
     justify-content: center;

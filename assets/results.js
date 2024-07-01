@@ -47,8 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const locationModal = document.getElementById("location-modal");
             locationModal.classList.remove("is-active");
         });
-    } else {
-        console.error("One or more elements not found in DOM.");
     }
 });
 
@@ -59,12 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
       artist
     )}`;
 
-    console.log(`Fetching events for ${artist} from: ${url}`);
 
     return fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(`API response for ${artist}:`, data);
         if (data._embedded && data._embedded.events) {
           return data._embedded.events;
         } else {
@@ -72,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.error(`Error fetching events for ${artist}:`, error);
         return [];
       });
   }
@@ -97,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         allEvents.push(...events);
       } catch (error) {
-        console.error(`Error fetching events for ${artist}:`, error);
+        return;
       }
     }
 

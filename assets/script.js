@@ -196,10 +196,7 @@ async function refreshTokenClick() {
 // HTML Template Rendering with data binding
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
- if (!template) {
-    console.error(`Template with ID '${templateId}' not found.`);
-    return;
-  } 
+ 
 
   const clone = template.content.cloneNode(true);
 

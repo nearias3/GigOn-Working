@@ -45,8 +45,8 @@ body {
 }
 
 .event {
-    flex: 1 1 calc(33.33% - 40px);
-    max-width: calc(33.33% - 40px); 
+    flex: 1 1 calc(50% - 40px);
+    max-width: calc(50% - 40px); 
     display: flex;
     flex-direction: column;
     justify-content: center;

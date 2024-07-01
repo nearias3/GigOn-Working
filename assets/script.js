@@ -217,7 +217,18 @@ function renderTemplate(targetId, templateId, data = null) {
       const prefix = targetType === "PROPERTY" ? "data." : "";
       const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
 
-      // Evaluate and bind the expression to the element 
+      // Evaluate and bind the expression to the element
+      try {
+        ele[targetProp] =
+          targetType === "PROPERTY"
+            ? eval(expression)
+            : () => {
+                eval(expression);
+              };
+        ele.removeAttribute(attr.name);
+      } catch (ex) {
+        console.error(`Error binding ${expression} to ${targetProp}`, ex);
+      }
     });
   });
 

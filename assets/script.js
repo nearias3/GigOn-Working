@@ -47,11 +47,11 @@ if (code) {
 
     const updatedUrl = url.search ? url.href : url.href.replace("?", "");
     window.history.replaceState({}, document.title, updatedUrl);
-
     //Reload the page after saving the token
     window.location.reload();
   })();
 }
+   
 
 // If we have a token, we're logged in, so fetch user data and render logged in template
 if (currentToken.access_token) {
@@ -61,17 +61,17 @@ if (currentToken.access_token) {
 
     //combined user data with top artists to simplify code down the line for binding
     const combinedData = {
-          ...userData,
-          top_artists: topArtists,
-        };
+      ...userData,
+      top_artists: topArtists,
+    };
 
     console.log("User data fetched:", combinedData);
     renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
-    
+
     // save top artists to local storage to use in results page
     localStorage.setItem(
-      "top_artists", 
+      "top_artists",
       JSON.stringify(combinedData.top_artists.items)
     );
   })();
@@ -178,7 +178,6 @@ async function getTopArtists() {
   return await response.json();
 }
 
-
 // Click handlers
 
 async function loginWithSpotifyClick() {
@@ -196,10 +195,15 @@ async function refreshTokenClick() {
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
-// HTML Template Rendering with data binding
+// HTML Template Rendering with basic data binding - demoware only.
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
-   const clone = template.content.cloneNode(true);
+    if (!template) {
+      console.error(`Template with ID '${templateId}' not found.`);
+      return;
+    }
+    
+  const clone = template.content.cloneNode(true);
 
   const elements = clone.querySelectorAll("*");
   elements.forEach((ele) => {
@@ -253,8 +257,3 @@ function renderTemplate(targetId, templateId, data = null) {
     }
   }
 }
-
-
-
-
-

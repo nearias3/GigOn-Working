@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,10 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/style.css">
 </head>
-
 <body>
 
-   <header>
+ <header>
 
       <div id="logoCoupling">
           <h1 id="simplifiedLogo">gigON!</h1>
@@ -36,11 +33,8 @@
   </div>
 
   <div id="main">
-  <div id="oauth"></div> <!--band aid solution this will mess up stuff-->
+  <div id="oauth"></div> 
   
-    
-
-   
   <template id="logged-in-template">
 
     <div id="left-panel">
@@ -62,23 +56,23 @@
     <button class="navBtn" id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
       
     
-   <template id="oauth-template">
-        <h2>oAuth info</h2>
-        <table>
-            <tr>
-                <td>Access token</td>
-                <td data-bind="access_token"></td>
-            </tr>
-            <tr>
-                <td>Refresh token</td>
-                <td data-bind="refresh_token"></td>
-            </tr>
-            <tr>
-                <td>Expiration at</td>
-                <td data-bind="expires">${getExpirationDate(expires_in)}</td>
-            </tr>
-        </table>
-    </template>
+  <template id="oauth-template">
+    <h2>oAuth info</h2>
+    <table>
+      <tr>
+        <td>Access token</td>
+        <td data-bind="access_token"></td>
+      </tr>
+      <tr>
+        <td>Refresh token</td>
+        <td data-bind="refresh_token"></td>
+      </tr>
+      <tr>
+        <td>Expiration at</td>
+        <td data-bind="expires">${getExpirationDate(expires_in)}</td>
+      </tr>
+    </table>
+  </template>
 
 <script src="./assets/script.js"></script>
 </body>

@@ -47,6 +47,9 @@ if (code) {
 
     const updatedUrl = url.search ? url.href : url.href.replace("?", "");
     window.history.replaceState({}, document.title, updatedUrl);
+
+    //Reload the page after saving the token
+    window.location.reload();
   })();
 }
 

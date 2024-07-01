@@ -1,3 +1,6 @@
+
+// Event Listener for the location search modal
+
 document.addEventListener("DOMContentLoaded", function () {
     const openModalButton = document.getElementById("open-modal-button");
     const closeModalButtons = document.querySelectorAll(".delete, .cancel-button");

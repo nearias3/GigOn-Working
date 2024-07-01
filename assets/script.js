@@ -65,7 +65,6 @@ if (currentToken.access_token) {
       top_artists: topArtists,
     };
 
-    console.log("User data fetched:", combinedData);
     renderTemplate("main", "logged-in-template", combinedData);
     renderTemplate("oauth", "oauth-template", currentToken);
 
@@ -81,7 +80,6 @@ if (currentToken.access_token) {
 }
 
 async function redirectToSpotifyAuthorize() {
-  console.log("Redirecting to Spotify for authorization...");
 
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -115,7 +113,6 @@ async function redirectToSpotifyAuthorize() {
   };
 
   authUrl.search = new URLSearchParams(params).toString();
-  console.log(`Auth URL: ${authUrl.toString()}`);
   window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
 }
 
@@ -199,7 +196,6 @@ async function refreshTokenClick() {
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
     if (!template) {
-      console.error(`Template with ID '${templateId}' not found.`);
       return;
     }
     
@@ -230,15 +226,12 @@ function renderTemplate(targetId, templateId, data = null) {
                 eval(expression);
               };
         ele.removeAttribute(attr.name);
-      } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
-      }
+      } 
     });
   });
 
   const target = document.getElementById(targetId);
   if (!target) {
-    console.error(`Target element with ID '${targetId}' not found.`);
     return;
   }
   target.innerHTML = "";

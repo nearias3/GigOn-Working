@@ -196,9 +196,7 @@ async function refreshTokenClick() {
 // HTML Template Rendering with data binding
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
- 
-
-  const clone = template.content.cloneNode(true);
+   const clone = template.content.cloneNode(true);
 
   const elements = clone.querySelectorAll("*");
   elements.forEach((ele) => {

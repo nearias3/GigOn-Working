@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data._embedded && data._embedded.events) {
           return data._embedded.events;
         } else {
-          return [];
+          errorMessage();
         }
       })
       .catch((error) => {

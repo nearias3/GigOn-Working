@@ -4,7 +4,6 @@ const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = "user-read-private user-read-email user-top-read";
 
-
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
   get access_token() {
@@ -68,7 +67,10 @@ if (currentToken.access_token) {
     renderTemplate("oauth", "oauth-template", currentToken);
     
     // save top artists to local storage to use in results page
-    localStorage.setItem("top_artists", JSON.stringify(combinedData.top_artists.items));
+    localStorage.setItem(
+      "top_artists", 
+      JSON.stringify(combinedData.top_artists.items)
+    );
   })();
 } else {
   // Otherwise we're not logged in, so render the login template

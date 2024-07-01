@@ -91,7 +91,8 @@ body {
     margin-top:50px;
     padding:20px;
     border-radius: 20px;
-    background-color: #f7d974;
+    background-color: #000000;
+    color: white;
 }
 
 .event h2 {
@@ -125,7 +126,7 @@ body {
     display: inline-block;
     padding: 10px 20px;
     background-color: #1DB954; 
-    color: black;
+    color: white;
     text-decoration: none;
     border-radius: 5px;
     margin-top: 10px;

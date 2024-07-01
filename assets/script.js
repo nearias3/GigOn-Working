@@ -227,7 +227,7 @@ function renderTemplate(targetId, templateId, data = null) {
               };
         ele.removeAttribute(attr.name);
       } catch (ex) {
-        console.error(`Error binding ${expression} to ${targetProp}`, ex);
+        return;
       }
     });
   });
